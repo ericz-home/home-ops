@@ -1,0 +1,33 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: lab
+kubeAPI:
+  host: lab.home
+  hostIP: 192.168.0.8
+  hostPort: "6443"
+ports:
+  - port: 8443:443
+    nodeFilters:
+    - loadbalancer
+volumes:
+  - volume: /home/home/Documents/work/k3d/volumes/storage:/var/lib/rancher/k3s/storage
+    nodeFilters:
+    - server:*
+  - volume: /home/home/Documents/work/k3d/volumes/manifests:/var/lib/rancher/k3s/server/manifests
+    nodeFilters:
+    - server:*
+  - volume: /home/home/Documents/work/k3d/volumes/snapshots:/var/lib/rancher/k3s/server/db/snapshots
+    nodeFilters:
+    - server:*
+options:
+  k3d: 
+    wait: true
+  k3s:
+    extraArgs:
+      - arg: --tls-san=lab.home
+        nodeFilters:
+        - server:* 
+      - arg: --secrets-encryption
+        nodeFilters:
+        - all
