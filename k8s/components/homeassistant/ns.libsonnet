@@ -1,0 +1,12 @@
+local ns = {
+  apiVersion: 'v1',
+  kind: 'Namespace',
+  metadata: {
+    name: 'homeassistant',
+    labels: {
+      name: 'homeassistant',
+    },
+  },
+};
+
+[ns]

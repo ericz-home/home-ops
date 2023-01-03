@@ -1,0 +1,30 @@
+apiVersion: qbec.io/v1alpha1
+kind: App
+metadata:
+  name: homeassistant
+spec:
+  environments:
+    lab:
+      defaultNamespace: homeassistant
+      server: https://lab.home:6443
+  vars: 
+    external:
+    - name: workDir
+      default: '/Users/ericz/Documents/work'
+    computed:
+    - name: importTLS
+      code: |
+        {
+          command: './scripts/import-tls.sh',
+          args: [ std.extVar('workDir') ]
+        }
+    - name: importSSH
+      code: |
+        {
+          command: './scripts/import-ssh.sh',
+          args: [ std.extVar('workDir') ]
+        }
+
+  dataSources:
+  - exec://import-tls?configVar=importTLS
+  - exec://import-ssh?configVar=importSSH
