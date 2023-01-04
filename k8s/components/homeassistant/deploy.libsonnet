@@ -1,8 +1,8 @@
 local git_sync =
   {
-    image: 'registry.k8s.io/git-sync/git-sync:v3.6.2',
+    image: 'alpine/git:user',
     imagePullPolicy: 'IfNotPresent',
-    name: 'git-sync',
+    name: 'git-init',
     volumeMounts: [
       {
         name: 'ssh',
@@ -13,29 +13,17 @@ local git_sync =
         name: 'config',
         mountPath: '/config',
       },
+    ],
+    workingDir: '/config',
+    env: [
       {
-        name: 'git',
-        mountPath: '/git',
+        name: 'GIT_SSH_COMMAND',
+        value: 'ssh -i /.ssh/ssh-privatekey -o UserKnownHostsFile=/.ssh/known_hosts',
       },
     ],
     args: [
-      '--add-user',
-      '--dest',
-      'current',
-      '--wait',
-      '10',
-      '--repo',
-      'git@github.com:e-zhang/homeassistant-config.git',
-      '--branch',
-      'main',
-      '--root',
-      '/git',
-      '--ssh',
-      '--ssh-key-file',
-      '/.ssh/ssh-privatekey',
-      '--ssh-known-hosts-file',
-      '/.ssh/known_hosts',
-      '--one-time',
+      'pull',
+      '-v',
     ],
   };
 
@@ -96,10 +84,6 @@ local deploy = {
                 name: 'config',
                 mountPath: '/config',
               },
-              {
-                name: 'git',
-                mountPath: '/git',
-              },
             ],
           },
         ],
@@ -122,10 +106,6 @@ local deploy = {
             secret: {
               secretName: 'ssh-key-git',
             },
-          },
-          {
-            name: 'git',
-            emptyDir: {},
           },
         ],
         securityContext: {
