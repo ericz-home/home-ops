@@ -11,16 +11,24 @@ ports:
     nodeFilters:
     - loadbalancer
 volumes:
-  - volume: /home/home/Documents/work/k3d/volumes/storage:/var/lib/rancher/k3s/storage
-    nodeFilters:
-    - server:*
-  - volume: /home/home/Documents/work/k3d/volumes/manifests:/var/lib/rancher/k3s/server/manifests
+  - volume: /home/home/Documents/work/k3d/volumes/manifests:k3s-manifests-custom
     nodeFilters:
     - server:*
   - volume: /home/home/Documents/work/k3d/volumes/snapshots:/var/lib/rancher/k3s/server/db/snapshots
     nodeFilters:
     - server:*
+  - volume: /home/home/Documents/work/k3d/volumes/storage/server:k3s-storage
+    nodeFilters:
+    - server:*
+  - volume: /home/home/Documents/work/k3d/volumes/storage/agent:k3s-storage
+    nodeFilters:
+    - agent:*
+servers: 1
+agents: 1
 options:
+  runtime:
+    serversMemory: 2Gi
+    agentsMemory: 3Gi
   k3d: 
     wait: true
   k3s:
@@ -28,6 +36,16 @@ options:
       - arg: --tls-san=lab.home
         nodeFilters:
         - server:* 
+      - arg: --cluster-init
+        nodeFilters:
+        - server:0
       - arg: --secrets-encryption
         nodeFilters:
-        - all
+        - server:*
+      - arg: --node-taint=trust=high:NoExecute
+        nodeFilters:
+        - agent:0
+    nodeLabels:
+      - label: k8s.lab.home/workload=infra
+        nodeFilters:
+        - agent:0
