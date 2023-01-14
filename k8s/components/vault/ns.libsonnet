@@ -2,9 +2,9 @@
   apiVersion: 'v1',
   kind: 'Namespace',
   metadata: {
-    name: 'homeassistant',
+    name: 'vault',
     labels: {
-      name: 'homeassistant',
+      name: 'vault',
     },
   },
 }

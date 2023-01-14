@@ -35,6 +35,7 @@ local deploy = {
       app: 'homeassistant',
     },
     name: 'homeassistant',
+    namespace: 'homeassistant',
   },
 
   spec: {
@@ -122,6 +123,7 @@ local svc = {
   kind: 'Service',
   metadata: {
     name: 'homeassistant',
+    namespace: 'homeassistant',
   },
   spec: {
     selector: {

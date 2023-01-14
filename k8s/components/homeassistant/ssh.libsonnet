@@ -5,6 +5,7 @@ local secret = {
   kind: 'Secret',
   metadata: {
     name: 'ssh-key-git',
+    namespace: 'homeassistant',
   },
   data: {
     'ssh-privatekey': std.base64(ssh.privateKey + '\n'),

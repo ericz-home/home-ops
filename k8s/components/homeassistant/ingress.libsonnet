@@ -3,6 +3,7 @@ local ingress = {
   kind: 'Ingress',
   metadata: {
     name: 'homeassistant',
+    namespace: 'homeassistant',
   },
   spec: {
     tls: [

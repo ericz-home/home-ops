@@ -3,6 +3,7 @@ local pvc = {
   kind: 'PersistentVolumeClaim',
   metadata: {
     name: 'config',
+    namespace: 'homeassistant',
     annotations: {
       volumeType: 'local',
     },

@@ -5,6 +5,7 @@ local secret = {
   kind: 'Secret',
   metadata: {
     name: 'homeassistant-tls',
+    namespace: 'homeassistant',
   },
   data: {
     'tls.crt': std.base64(tls.crt),

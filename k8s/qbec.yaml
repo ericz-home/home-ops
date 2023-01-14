@@ -1,11 +1,11 @@
 apiVersion: qbec.io/v1alpha1
 kind: App
 metadata:
-  name: homeassistant
+  name: lab
 spec:
+  clusterScopedLists: true
   environments:
     lab:
-      defaultNamespace: homeassistant
       server: https://lab.home:6443
   vars: 
     external:
@@ -24,7 +24,15 @@ spec:
           command: './scripts/import-ssh.sh',
           args: [ std.extVar('workDir') ]
         }
+    - name: expandHelm
+      code: |
+        {
+          command: './scripts/expand-helm.sh',
+          args: [ std.thisFile ],
+          inheritEnv: true,
+        }
 
   dataSources:
   - exec://import-tls?configVar=importTLS
   - exec://import-ssh?configVar=importSSH
+  - exec://expand-helm?configVar=expandHelm

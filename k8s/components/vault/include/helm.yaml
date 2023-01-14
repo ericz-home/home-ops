@@ -1,0 +1,31 @@
+global:
+  enabled: false
+
+server:
+  enabled: true
+
+  resources:
+    requests:
+      memory: '2Gi'
+      cpu: 1
+    limits:
+      memory: '2Gi'
+      cpu: 1
+
+  tolerations:
+    - key: 'trust'
+      operator: 'Equal'
+      value: 'high'
+      effect: 'NoExecute'
+
+  nodeSelector:
+    k8s.lab.home/workload: 'infra'
+
+
+  dataStorage:
+    enabled: true
+    size: 5Gi
+    storageClass: 'local-storage'
+
+  standalone:
+    enabled: true
