@@ -39,6 +39,12 @@ path "pki/*"
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 
+# To create an entity and entity alias. Enable and configure Vault as an OIDC provider
+path "identity/*" {
+  capabilities = [ "create", "read", "update", "delete", "list" ]
+}
+
+
 # Manage secrets engines
 path "sys/mounts/*"
 {
@@ -57,7 +63,4 @@ path "sys/health"
   capabilities = ["read", "sudo"]
 }
 
-# To create an entity and entity alias. Enable and configure Vault as an OIDC provider
-path "identity/*" {
-  capabilities = [ "create", "read", "update", "delete", "list" ]
-}
+

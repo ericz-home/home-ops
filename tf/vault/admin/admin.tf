@@ -38,3 +38,31 @@ resource "vault_identity_group" "admin_group" {
   policies          = [vault_policy.admin_policy.name]
   member_entity_ids = [vault_identity_entity.admin_entity.id]
 }
+
+resource "vault_identity_mfa_totp" "totp" {
+  issuer    = "Lab Vault"
+  algorithm = "SHA256"
+  digits    = 6
+  period    = 60
+}
+
+resource "vault_identity_mfa_login_enforcement" "mfa_login_enforcement" {
+  name = "mfa_login"
+  mfa_method_ids = [
+    vault_identity_mfa_totp.totp.method_id
+  ]
+  auth_method_accessors = [
+    vault_auth_backend.userpass.accessor
+  ]
+  identity_group_ids = [
+    vault_identity_group.admin_group.id
+  ]
+}
+
+output "admin_entity_id" {
+  value = vault_identity_entity.admin_entity.id
+}
+
+output "mfa_method_id" {
+  value = vault_identity_mfa_totp.totp.method_id
+}

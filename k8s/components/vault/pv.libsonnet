@@ -18,22 +18,34 @@
     persistentVolumeReclaimPolicy: 'Retain',
     storageClassName: 'local-storage',
     'local': {
-      path: '/var/lib/rancher/k3s/storage/vault/data',
+      path: '/home/home/Documents/work/k3s/storage/vault/data',
     },
     nodeAffinity: {
       required: {
         nodeSelectorTerms: [
           {
-            matchExpressions: [
-              {
-                key: 'k8s.lab.home/workload',
+            matchExpressions:
+              [{
+                key: 'node.kubernetes.io/instance-type',
                 operator: 'In',
-                values: ['infra'],
-              },
-            ],
+                values: ['k3s'],
+              }],
           },
         ],
       },
+      // required: {
+      //   nodeSelectorTerms: [
+      //     {
+      //       matchExpressions: [
+      //         {
+      //           key: 'k8s.lab.home/workload',
+      //           operator: 'In',
+      //           values: ['infra'],
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     },
   },
 }

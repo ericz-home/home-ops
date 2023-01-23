@@ -12,14 +12,14 @@ server:
       memory: '2Gi'
       cpu: 1
 
-  tolerations:
-    - key: 'trust'
-      operator: 'Equal'
-      value: 'high'
-      effect: 'NoExecute'
+  # tolerations:
+  #   - key: 'trust'
+  #     operator: 'Equal'
+  #     value: 'high'
+  #     effect: 'NoExecute'
 
-  nodeSelector:
-    k8s.lab.home/workload: 'infra'
+  # nodeSelector:
+  #   k8s.lab.home/workload: 'infra'
 
 
   dataStorage:
