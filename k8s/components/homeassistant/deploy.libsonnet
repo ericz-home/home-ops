@@ -14,8 +14,8 @@ local vault_annotations =
     'vault.hashicorp.com/agent-inject-perms-ssh-privatekey': '0600',
     'vault.hashicorp.com/agent-inject-secret-ssh-privatekey': 'secrets/homeassistant/ssh',
     'vault.hashicorp.com/agent-inject-template-ssh-privatekey': |||
-      {{- with secret "secrets/homeassistant/ssh" -}}
-      {{ .Data.data.privatekey }}
+      {{ with secret "secrets/homeassistant/ssh" -}}
+        {{ .Data.data.privatekey }}
       {{- end }}
     |||,
   } +
@@ -24,8 +24,8 @@ local vault_annotations =
     'vault.hashicorp.com/agent-inject-perms-mealie': '0600',
     'vault.hashicorp.com/agent-inject-secret-mealie': 'secrets/homeassistant/mealie',
     'vault.hashicorp.com/agent-inject-template-mealie': |||
-      {{- with secret "secrets/homeassistant/mealie" -}}
-      mealie_api_token: Bearer {{ .Data.data.api_token }}
+      {{ with secret "secrets/homeassistant/mealie" -}}
+        mealie_api_token: Bearer {{ .Data.data.api_token }}
       {{- end }}
     |||,
     'vault.hashicorp.com/agent-inject-command-mealie': |||
@@ -53,7 +53,7 @@ local git_sync =
     ],
     command: ['/bin/sh', '-c'],
     args: [
-      'git pull || git clone git@github.com:e-zhang/homeassistant-config.git .',
+      'git pull || git clone git@github.com:ericz-home/homeassistant-config.git .',
     ],
   };
 
