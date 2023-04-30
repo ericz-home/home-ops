@@ -1,5 +1,5 @@
 tls-san:
-  - "k3s.lab.home"
+  - "k3s.home"
 selinux: true
 secrets-encryption: true
 node-name: lab
@@ -15,5 +15,5 @@ kube-apiserver-arg:
   - "--oidc-username-prefix=oidc:"
   - --oidc-ca-file=/home/home/Documents/work/k3s/labCA.crt
 disable:
-- local-storage
-- traefik
+  - local-storage
+  - traefik
