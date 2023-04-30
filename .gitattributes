@@ -1,3 +1,4 @@
 .gitattributes !filter !diff
 
 tf/pihole/dns.tf filter=git-crypt diff=git-crypt
+k8s/components/tailscale/include/db.lab.home filter=git-crypt diff=git-crypt
