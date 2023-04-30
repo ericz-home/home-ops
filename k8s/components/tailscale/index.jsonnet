@@ -9,5 +9,4 @@ local sa = import 'sa.libsonnet';
   ns,
   sa,
   ca,
-  gw,
 ] + rbac + coredns

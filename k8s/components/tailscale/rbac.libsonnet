@@ -14,7 +14,7 @@ local role = {
     {
       apiGroups: [''],  // indicates the core API group
       resources: ['secrets'],
-      resourceNames: ['tailscale-auth', 'coredns-auth'],
+      resourceNames: ['coredns-auth'],
       verbs: ['get', 'update', 'patch'],  // create cannot be restricted to a resource name
     },
   ],

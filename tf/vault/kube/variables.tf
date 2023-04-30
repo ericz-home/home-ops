@@ -1,8 +1,9 @@
 variable "services" {
-  type        = list(string)
+  type        = map(list(string))
   description = "list of services that need access to secrets"
-  default = [
-    "homeassistant",
-    "tailscale"
-  ]
+  default = {
+    "homeassistant"  = ["homeassistant"],
+    "tailscale"      = ["tailscale"],
+    "projectcontour" = ["envoy"],
+  }
 }
