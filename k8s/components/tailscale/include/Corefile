@@ -1,0 +1,12 @@
+tail32eb0.ts.net {
+    forward . 100.100.100.100
+    log
+    errors
+}
+
+lab.home {
+    file /etc/coredns/db.lab.home
+    log
+    errors 
+    debug
+}

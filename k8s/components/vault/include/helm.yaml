@@ -52,7 +52,7 @@ server:
         tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
         tls_client_ca_file = "/vault/userconfig/vault-tls/ca.crt"
 
-        x_forwarded_for_authorized_addrs = "10.42.0.0/24,192.168.0.0/24"
+        x_forwarded_for_authorized_addrs = "10.42.0.0/24,192.168.0.0/24,100.64.0.0/10"
         x_forwarded_for_reject_not_present = "false"
       }
 

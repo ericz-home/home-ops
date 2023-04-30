@@ -6,31 +6,31 @@ spec:
   clusterScopedLists: true
   environments:
     lab:
-      server: https://k3s.lab.home:6443
-  vars: 
+      server: https://k3s.home:6443
+  vars:
     topLevel:
-    - name: bootstrap
-      components: ['vault']
+      - name: bootstrap
+        components: ['vault']
 
     external:
-    - name: workDir
-      default: '/Users/ericz/Documents/work'
+      - name: workDir
+        default: '/Users/ericz/Documents/work'
 
     computed:
-    - name: expandHelm
-      code: |
-        {
-          command: './scripts/expand-helm.sh',
-          inheritEnv: true,
-        }
-    - name: getCA
-      code: |
-        {
-          command: './scripts/get-ca.sh',
-          args: [ std.extVar('workDir') ]
-        }
+      - name: expandHelm
+        code: |
+          {
+            command: './scripts/expand-helm.sh',
+            inheritEnv: true,
+          }
+      - name: getCA
+        code: |
+          {
+            command: './scripts/get-ca.sh',
+            args: [ std.extVar('workDir') ]
+          }
 
 
   dataSources:
-  - exec://expand-helm?configVar=expandHelm
-  - exec://get-ca?configVar=getCA
+    - exec://expand-helm?configVar=expandHelm
+    - exec://get-ca?configVar=getCA

@@ -1,3 +1,19 @@
+local corefile = importstr './include/Corefile';
+local dbfile = importstr './include/db.lab.home';
+
+local configmap = {
+  apiVersion: 'v1',
+  kind: 'ConfigMap',
+  metadata: {
+    name: 'coredns',
+    namespace: 'tailscale',
+  },
+  data: {
+    Corefile: corefile,
+    'db.lab.home': dbfile,
+  },
+};
+
 local vault_annotations =
   {
     'vault.hashicorp.com/tls-secret': 'lab-ca',
@@ -9,62 +25,69 @@ local vault_annotations =
   } +
   // add tailscale authkey
   {
-    'vault.hashicorp.com/agent-inject-secret-tailscale': 'secrets/tailscale/lab-gw',
+    'vault.hashicorp.com/agent-inject-secret-tailscale': 'secrets/tailscale/coredns',
     'vault.hashicorp.com/agent-inject-template-tailscale': |||
-      {{ with secret "secrets/tailscale/lab-gw" -}}
+      {{ with secret "secrets/tailscale/coredns" -}}
         export TS_AUTHKEY="{{ .Data.data.authkey }}"
       {{- end }}
     |||,
   };
 
-
-{
+local deployment = {
   apiVersion: 'apps/v1',
   kind: 'Deployment',
   metadata: {
-    labels: {
-      app: 'lab-gw',
-    },
-    annotations: {
-      description: 'tailscale gateway for lab.home',
-    },
-    name: 'lab-gw',
+    name: 'coredns',
     namespace: 'tailscale',
+    labels: {
+      app: 'coredns',
+    },
   },
   spec: {
     selector: {
       matchLabels: {
-        app: 'lab-gw',
+        app: 'coredns',
       },
     },
     replicas: 1,
     template: {
       metadata: {
         labels: {
-          app: 'lab-gw',
+          app: 'coredns',
         },
         annotations: vault_annotations,
       },
       spec: {
-        initContainers: [
-          {
-            name: 'sysctler',
-            image: 'busybox',
-            securityContext: {
-              privileged: true,
-            },
-            command: ['/bin/sh'],
-            args: ['-c', 'sysctl -w net.ipv4.ip_forward=1 net.ipv6.conf.all.forwarding=1'],
-          },
-        ],
-        serviceAccountName: 'tailscale',
         containers: [
+          {
+            name: 'coredns',
+            image: 'coredns/coredns:latest',
+            imagePullPolicy: 'Always',
+            args: ['-conf', '/etc/coredns/Corefile'],
+            volumeMounts: [
+              {
+                name: 'config',
+                mountPath: '/etc/coredns',
+              },
+            ],
+            ports: [
+              {
+                name: 'dns',
+                protocol: 'UDP',
+                containerPort: 53,
+              },
+              {
+                name: 'dns-tcp',
+                protocol: 'TCP',
+                containerPort: 53,
+              },
+            ],
+          },
           {
             name: 'tailscale',
             imagePullPolicy: 'Always',
             image: 'ghcr.io/tailscale/tailscale:latest',
             securityContext: {
-              allowPrivilegeEscalation: true,
               capabilities: {
                 add: ['NET_ADMIN'],
               },
@@ -74,15 +97,11 @@ local vault_annotations =
             env: [
               {
                 name: 'TS_KUBE_SECRET',
-                value: 'tailscale-auth',
+                value: 'coredns-auth',
               },
               {
                 name: 'TS_USERSPACE',
                 value: 'false',
-              },
-              {
-                name: 'TS_DEST_IP',
-                value: '10.43.38.159',  // kubectl -n projectcontour get svc envoy
               },
               {
                 name: 'TS_AUTH_ONCE',
@@ -90,7 +109,7 @@ local vault_annotations =
               },
               {
                 name: 'TS_HOSTNAME',
-                value: 'lab-gw',
+                value: 'dns-tailscale',
               },
             ],
             volumeMounts: [
@@ -101,7 +120,14 @@ local vault_annotations =
             ],
           },
         ],
+        serviceAccountName: 'tailscale',
         volumes: [
+          {
+            name: 'config',
+            configMap: {
+              name: 'coredns',
+            },
+          },
           {
             name: 'tun',
             hostPath: {
@@ -112,4 +138,6 @@ local vault_annotations =
       },
     },
   },
-}
+};
+
+[configmap, deployment]
