@@ -14,7 +14,7 @@ spec:
 
     external:
       - name: workDir
-        default: '/Users/ericz/Documents/work'
+        default: '/Users/ericz/Documents/work/homelab'
 
     computed:
       - name: expandHelm
