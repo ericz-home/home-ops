@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"sort"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -70,8 +71,20 @@ func runList(ctx context.Context) error {
 		return err
 	}
 
+	// display the keys
+	sort.Slice(keys, func(i, j int) bool {
+		if keys[i].Description < keys[j].Description {
+			return true
+		}
+		if keys[i].Description > keys[j].Description {
+			return false
+		}
+
+		return keys[i].Expires.After(keys[j].Expires)
+	})
+
 	for _, key := range keys {
-		fmt.Printf("%s|%s\n", key.ID, key.Description)
+		fmt.Printf("%s|%s|%s|%s\n", key.ID, key.Description, key.Created.Format(time.DateTime), key.Expires.Format(time.DateTime))
 	}
 
 	return nil
