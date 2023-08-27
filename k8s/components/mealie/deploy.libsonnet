@@ -41,6 +41,10 @@ local deploy = {
                 value: 'mealie.lab.home:8443',
               },
               {
+                name: 'API_URL',
+                value: 'http://127.0.0.1:9000',
+              },
+              {
                 name: 'TZ',
                 value: 'America/Los_Angeles',
               },

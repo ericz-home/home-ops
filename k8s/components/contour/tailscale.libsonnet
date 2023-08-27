@@ -6,6 +6,7 @@ local vault_annotations =
     'vault.hashicorp.com/agent-inject': 'true',
     'vault.hashicorp.com/agent-pre-populate-only': 'true',
     'vault.hashicorp.com/agent-run-as-user': '1000',
+    'vault.hashicorp.com/template-config-exit-on-retry-failure': 'false',
   } +
   // add tailscale authkey
   {
