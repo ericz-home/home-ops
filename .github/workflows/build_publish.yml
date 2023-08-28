@@ -1,0 +1,46 @@
+name: Reusable Build and Publish
+
+on:
+  workflow_call:
+    inputs:
+      registry:
+        default: ghcr.io
+        required: false
+        type: string
+      workdir:
+        default: .
+        required: false
+        type: string
+      image:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set tag
+        id: tag
+        run: echo "TAG=${{ inputs.registry }}/${{ inputs.image }}:$(date +%Y-%m-%d)"
+          >> "$GITHUB_OUTPUT"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: ${{ inputs.workdir }}
+          push: true
+          file: ${{ inputs.workdir }}/Containerfile
+          tags: ${{ steps.tag.outputs.TAG }}
+

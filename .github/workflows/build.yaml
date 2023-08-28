@@ -1,0 +1,16 @@
+name: Build
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "toolbox/**"
+      - ".github/workflows/**"
+
+jobs:
+  build-toolbox:
+    uses: ./.github/workflows/build_publish.yml
+    with:
+      image: ${{ github.repository_owner }}/toolbox
+      workdir: ./toolbox
+    secrets: inherit
