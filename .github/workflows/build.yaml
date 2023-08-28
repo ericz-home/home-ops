@@ -10,6 +10,8 @@ on:
 jobs:
   build-toolbox:
     uses: ./.github/workflows/build_publish.yml
+    permissions:
+      packages: write
     with:
       image: ${{ github.repository_owner }}/toolbox
       workdir: ./toolbox
