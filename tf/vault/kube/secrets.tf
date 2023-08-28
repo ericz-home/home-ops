@@ -31,3 +31,22 @@ resource "vault_kubernetes_auth_backend_role" "secret_read_role" {
   audience                         = null
 }
 
+resource "vault_policy" "toolbox_secret_policy" {
+  name = "$toolbox_secret_policy"
+
+  policy = <<EOF
+path "secrets/data/+/tailscale" {
+  capabilities = ["read", "update"]
+}
+EOF
+}
+
+resource "vault_kubernetes_auth_backend_role" "toolbox_read_role" {
+  backend                          = vault_auth_backend.kubernetes.path
+  role_name                        = "toolbox-secrets-role"
+  bound_service_account_names      = ["toolbox"]
+  bound_service_account_namespaces = ["toolbox"]
+  token_ttl                        = 3600
+  token_policies                   = [vault_policy.toolbox_secret_policy.name]
+  audience                         = null
+}
