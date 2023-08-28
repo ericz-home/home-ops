@@ -3,6 +3,9 @@
 case $1 in
     "rotate")
         echo "Preparing to run rotate script."
+        echo "sourcing tailscale oauth credentials"
+        source /vault/secrets/tailscalex
+
         echo "logging into vault..."
         vault write auth/kubernetes/login -role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) 
 

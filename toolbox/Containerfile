@@ -15,10 +15,10 @@ FROM gcr.io/distroless/base-debian11:debug-nonroot
 
 LABEL org.opencontainers.image.source=https://github.com/ericz-home/home-ops
 
-COPY --from=builder /src/bin/tailscalex /usr/local/bin
-COPY --from=kubectl /opt/bitnami/kubectl/bin/kubectl /usr/local/bin
-COPY --from=vault /bin/vault /usr/local/bin
-COPY rotate.sh entrypoint.sh .
+COPY --from=builder --chown=nonroot /src/bin/tailscalex /usr/local/bin/
+COPY --from=kubectl --chown=nonroot /opt/bitnami/kubectl/bin/kubectl /usr/local/bin/
+COPY --from=vault --chown=nonroot /bin/vault /usr/local/bin/
+COPY --chown=nonroot rotate.sh entrypoint.sh .
 
 ENTRYPOINT ["./entrypoint.sh"]
 

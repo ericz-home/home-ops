@@ -31,8 +31,8 @@ resource "vault_kubernetes_auth_backend_role" "secret_read_role" {
   audience                         = null
 }
 
-resource "vault_policy" "toolbox_secret_policy" {
-  name = "$toolbox_secret_policy"
+resource "vault_policy" "tailscalex_secret_policy" {
+  name = "tailscalex_secret_policy"
 
   policy = <<EOF
 path "secrets/data/+/tailscale" {
@@ -41,12 +41,12 @@ path "secrets/data/+/tailscale" {
 EOF
 }
 
-resource "vault_kubernetes_auth_backend_role" "toolbox_read_role" {
+resource "vault_kubernetes_auth_backend_role" "tailscalex_read_role" {
   backend                          = vault_auth_backend.kubernetes.path
-  role_name                        = "toolbox-secrets-role"
+  role_name                        = "tailscalex-secrets-role"
   bound_service_account_names      = ["toolbox"]
   bound_service_account_namespaces = ["toolbox"]
   token_ttl                        = 3600
-  token_policies                   = [vault_policy.toolbox_secret_policy.name]
+  token_policies                   = [vault_policy.tailscalex_secret_policy.name]
   audience                         = null
 }

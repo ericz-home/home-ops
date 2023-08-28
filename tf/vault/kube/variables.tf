@@ -6,5 +6,6 @@ variable "services" {
     "tailscale"       = ["tailscale"],
     "projectcontour"  = ["envoy"],
     "feeds-to-pocket" = ["feeds-to-pocket"],
+    "toolbox"         = ["toolbox"]
   }
 }
