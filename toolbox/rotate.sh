@@ -1,13 +1,11 @@
 #! /bin/sh
 
-set -euo pipefail
+set -euxo pipefail
 
 TSX=${TSX-tailscalex}
-
 EXPIRE_WITHIN="120h"
 
 KEYS=$($TSX keys list --expires-within $EXPIRE_WITHIN)
-
 if [ "$KEYS" == "" ]; then
     echo "No keys set to expire within $EXPIRE_WITHIN"
     exit 0
