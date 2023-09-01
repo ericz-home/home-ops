@@ -20,5 +20,5 @@ COPY --from=kubectl --chown=nonroot /opt/bitnami/kubectl/bin/kubectl /usr/local/
 COPY --from=vault --chown=nonroot /bin/vault /usr/local/bin/
 COPY --chown=nonroot rotate.sh entrypoint.sh .
 
-ENTRYPOINT ["sh", "-c", "/home/nonroot/entrypoint.sh"]
+ENTRYPOINT ["sh", "/home/nonroot/entrypoint.sh"]
 
