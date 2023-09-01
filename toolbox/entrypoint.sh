@@ -1,4 +1,6 @@
-#! /bin/sh -e
+#! /bin/sh
+
+set -euo pipefail
 
 case $1 in
     "rotate")
@@ -9,11 +11,12 @@ case $1 in
         echo "logging into vault..."
         vault write auth/kubernetes/login -role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) 
 
-        ./rotate.sh
+        sh rotate.sh
         ;;
     "restart")
         echo "Preparing to run restart script."
         echo "TODO: write this script"
+        ;;
     *)
         echo "Unknown command: $1"
         exit 1

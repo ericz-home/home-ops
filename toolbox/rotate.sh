@@ -1,4 +1,6 @@
-#! /bin/sh -e
+#! /bin/sh
+
+set -euo pipefail
 
 TSX=${TSX-tailscalex}
 
