@@ -1,6 +1,6 @@
 #! /bin/sh
 
-set -euxo pipefail
+set -euo pipefail
 
 TSX=${TSX-tailscalex}
 EXPIRE_WITHIN="120h"
