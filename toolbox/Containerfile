@@ -18,7 +18,7 @@ LABEL org.opencontainers.image.source=https://github.com/ericz-home/home-ops
 COPY --from=builder --chown=nonroot /src/bin/tailscalex /usr/local/bin/
 COPY --from=kubectl --chown=nonroot /opt/bitnami/kubectl/bin/kubectl /usr/local/bin/
 COPY --from=vault --chown=nonroot /bin/vault /usr/local/bin/
-COPY --chown=nonroot rotate.sh entrypoint.sh .
+COPY --chown=nonroot rotate.sh entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT ["sh", "/home/nonroot/entrypoint.sh"]
+ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
 
