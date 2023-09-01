@@ -9,7 +9,7 @@ case $1 in
         source /vault/secrets/tailscalex
 
         echo "logging into vault..."
-        vault write auth/kubernetes/login -role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) 
+        vault write auth/kubernetes/login role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) 
 
         sh rotate.sh
         ;;
