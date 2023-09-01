@@ -9,14 +9,14 @@ case $1 in
         source /vault/secrets/tailscalex
 
         echo "logging into vault..."
-        vault write auth/kubernetes/login \
+        vault write
             -field=token_policies \
             -field=policies \
             -field=token_meta_role \
             -field=token_meta_service_account_name \
             -field=token_meta_service_account_namespace \
             -field=token_meta_service_account_uid \
-            role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) 
+             auth/kubernetes/login role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) 
 
         sh $(dirname "$0")/rotate.sh
         ;;
