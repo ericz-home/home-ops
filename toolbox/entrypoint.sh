@@ -15,7 +15,6 @@ case $1 in
             -field=metadata.role\
             -field=metadata.service_account_name \
             -field=metadata.service_account_namespace \
-            -field=metadata.service_account_uid \
             auth/kubernetes/login role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) 
 
         sh $(dirname "$0")/rotate.sh
