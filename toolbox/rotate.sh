@@ -2,9 +2,12 @@
 
 set -euo pipefail
 
+echo "Starting rotation.."
+
 TSX=${TSX-tailscalex}
 EXPIRE_WITHIN="120h"
 
+echo "Listing tailscale keys..."
 KEYS=$($TSX keys list --expires-within $EXPIRE_WITHIN)
 if [ "$KEYS" == "" ]; then
     echo "No keys set to expire within $EXPIRE_WITHIN"

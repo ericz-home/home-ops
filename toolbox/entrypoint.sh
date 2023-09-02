@@ -13,6 +13,7 @@ case $1 in
             auth/kubernetes/login role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) |\
             grep -vw "token" 
 
+        echo "running rotate script... $(dirname $0)"
         sh $(dirname "$0")/rotate.sh
         ;;
     "restart")
