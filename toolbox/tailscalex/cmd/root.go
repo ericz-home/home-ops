@@ -29,7 +29,7 @@ func Execute() error {
 }
 
 func exit(err error) {
-	fmt.Println(err)
+	fmt.Fprintf(os.Stderr, "ERROR: %s", err)
 	os.Exit(1)
 }
 
