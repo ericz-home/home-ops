@@ -38,6 +38,15 @@ resource "vault_policy" "tailscalex_secret_policy" {
 path "secrets/data/+/tailscale" {
   capabilities = ["read", "update"]
 }
+path "secrets/metadata/+/tailscale" {
+  capabilities = ["list", "read"]
+}
+path "secrets/data/tailscale/*" {
+  capabilities = ["read", "update"]
+}
+path "secrets/metadata/tailscale/*" {
+  capabilities = ["list", "read"]
+}
 EOF
 }
 

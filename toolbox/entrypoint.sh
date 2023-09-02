@@ -10,8 +10,10 @@ case $1 in
 
         echo "logging into vault..."
         vault write \
-            auth/kubernetes/login role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) |\
-            grep -vw "token" 
+            auth/kubernetes/login role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) >\
+            /tmp/vault-token
+        export VAULT_TOKEN=$(cat /tmp/vault-token | grep -w "token")
+        cat /tmp/vault-token | grep -vw token
 
         echo "running rotate script... $(dirname $0)"
         sh $(dirname "$0")/rotate.sh
