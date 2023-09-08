@@ -9,12 +9,11 @@ case $1 in
         source /vault/secrets/tailscalex
 
         echo "logging into vault..."
-        vault write \
-            auth/kubernetes/login -format=json \
+        vault write -format=json auth/kubernetes/login \
             role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) >\
             /tmp/vault-token
         export VAULT_TOKEN=$(jq -r .auth.client_token /tmp/vault-token)
-        cat /tmp/vault-token | grep -vw client_token
+        jq 'del(.auth.client_token)' /tmp/vault-token
 
         echo "running rotate script... $(dirname $0)"
         sh $(dirname "$0")/rotate.sh

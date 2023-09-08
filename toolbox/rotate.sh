@@ -38,8 +38,8 @@ for kind in $KINDS;  do
 
         if [ "$DRY_RUN" != "Y" ]; then
             $TSX keys create $desc > /tmp/$desc.key
-            new_id=$(jq -r .id $desc.key)
-            new_key=$(jq -r .key $desc.key)
+            new_id=$(jq -r .id /tmp/$desc.key)
+            new_key=$(jq -r .key /tmp/$desc.key)
             echo "generated new key $new_id"
 
             echo "uploading to vault $vault_path"
