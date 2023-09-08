@@ -37,7 +37,7 @@ for kind in $KINDS;  do
         echo "rotating key $key_id ($desc)"
 
         if [ "$DRY_RUN" != "Y" ]; then
-            $TSX keys create $desc > $desc.key
+            $TSX keys create $desc > /tmp/$desc.key
             new_id=$(jq -r .id $desc.key)
             new_key=$(jq -r .key $desc.key)
             echo "generated new key $new_id"
@@ -53,7 +53,7 @@ for kind in $KINDS;  do
             echo "revoking old key $key_id"
             $TSX keys delete $key_id
 
-            rm -f $desc.key
+            rm -f /tmp/$desc.key
         fi
     done
 done
