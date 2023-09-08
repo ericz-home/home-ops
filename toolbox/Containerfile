@@ -10,9 +10,9 @@ FROM bitnami/kubectl:latest as kubectl
 
 FROM hashicorp/vault:latest as vault
 
-FROM gcr.io/distroless/base-debian11:debug-nonroot
-
 FROM ghcr.io/jqlang/jq as jq
+
+FROM gcr.io/distroless/base-debian11:debug-nonroot
 
 LABEL org.opencontainers.image.source=https://github.com/ericz-home/home-ops
 
