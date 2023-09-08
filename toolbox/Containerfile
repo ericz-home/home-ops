@@ -6,6 +6,7 @@ COPY ./tailscalex .
 
 RUN CGO_ENABLED=0 go build -o bin/tailscalex main.go
 
+RUN apt-get install jq -y
 
 FROM bitnami/kubectl:latest as kubectl
 
@@ -16,6 +17,7 @@ FROM gcr.io/distroless/base-debian11:debug-nonroot
 LABEL org.opencontainers.image.source=https://github.com/ericz-home/home-ops
 
 COPY --from=builder --chown=nonroot /src/bin/tailscalex /usr/local/bin/
+COPY --from=builder --chown=nonroot /usr/bin/jq /usr/local/bin/
 COPY --from=kubectl --chown=nonroot /opt/bitnami/kubectl/bin/kubectl /usr/local/bin/
 COPY --from=vault --chown=nonroot /bin/vault /usr/local/bin/
 COPY --chown=nonroot rotate.sh entrypoint.sh /usr/local/bin/

@@ -12,8 +12,8 @@ case $1 in
         vault write \
             auth/kubernetes/login role=$TOOLBOX_VAULT_ROLE jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) >\
             /tmp/vault-token
-        export VAULT_TOKEN=$(cat /tmp/vault-token | grep -w "token" | awk '{print $2}')
-        cat /tmp/vault-token | grep -vw token
+        export VAULT_TOKEN=$(jq -r .auth.client_token /tmp/vault-token)
+        cat /tmp/vault-token | grep -vw client_token
 
         echo "running rotate script... $(dirname $0)"
         sh $(dirname "$0")/rotate.sh
