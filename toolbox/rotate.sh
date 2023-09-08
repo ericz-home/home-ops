@@ -6,6 +6,7 @@ echo "Starting rotation.."
 
 TSX=${TSX-tailscalex}
 EXPIRE_WITHIN=${TS_EXPIRE_WITHIN-"120h"}
+DRY_RUN=${DRY_RUN-"N"}
 
 echo "Listing tailscale keys that expire within $EXPIRE_WITHIN"
 KEYS=$($TSX keys list --expires-within $EXPIRE_WITHIN)
@@ -35,7 +36,7 @@ for kind in $KINDS;  do
 
         echo "rotating key $key_id ($desc)"
 
-        if [ "$DRY_RUN" == "" ]; then
+        if [ "$DRY_RUN" != "Y" ]; then
             $TSX keys create $desc > $desc.key
             new_id=$(jq -r .id $desc.key)
             new_key=$(jq -r .key $desc.key)
