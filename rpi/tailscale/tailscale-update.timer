@@ -1,0 +1,9 @@
+[Unit]
+Description=Run tailscale update weekly
+
+[Timer]
+OnCalendar=Sun 06:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

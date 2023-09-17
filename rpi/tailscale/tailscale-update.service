@@ -1,0 +1,6 @@
+[Unit]
+Description=Run tailscale update
+
+[Service]
+Type=oneshot
+ExecStart=tailscale update
