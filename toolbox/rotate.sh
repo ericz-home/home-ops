@@ -45,7 +45,7 @@ for kind in $KINDS;  do
             echo "uploading to vault $vault_path"
             vault kv put $vault_path id=$new_id authkey=$new_key
 
-            echo "restarting deployment"
+            echo "restarting $kind $ns/$name"
             kubectl -n $ns rollout restart $kind $name
             kubectl -n $ns rollout status $kind $name
             echo "$ns/$name rollout complete"

@@ -20,7 +20,7 @@ case $1 in
         ;;
     "restart")
         echo "Preparing to run restart script."
-        echo "TODO: write this script"
+        sh $(dirname "$0")/restart.sh
         ;;
     *)
         echo "Unknown command: $1"
