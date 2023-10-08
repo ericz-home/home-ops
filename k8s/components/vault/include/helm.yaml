@@ -83,5 +83,6 @@ injector:
   certs:
     secretName: injector-tls
   webhook:
+    affinity: ""
     annotations:
       cert-manager.io/inject-ca-from: vault/injector-tls
