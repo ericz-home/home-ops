@@ -35,8 +35,4 @@ template {
 {{ end }}
 EOF
   destination = "/home/pi/work/vault/certs/pihole.pem"
-
-  exec {
-    command = ["service", "lighttpd", "restart"]
-  }
 }

@@ -1,0 +1,5 @@
+[Path]
+PathChanged=/home/pi/work/vault/certs/pihole.pem
+
+[Install]
+WantedBy=multi-user.target
