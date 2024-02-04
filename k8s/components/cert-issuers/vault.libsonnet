@@ -33,7 +33,7 @@ local issuer = function(name, role)
       },
       spec: {
         vault: {
-          path: 'pki/v2023/lab/v2023/sign/' + role,
+          path: 'pki/lab/v2024/sign/' + role,
           server: 'https://vault.vault.svc.cluster.local:8200',
           caBundle: ca,
           auth: {

@@ -36,7 +36,7 @@ local vault_annotations = {
           spec: {
             containers: [{
               name: 'toolbox',
-              image: 'ghcr.io/ericz-home/toolbox:latest',
+              image: 'ghcr.io/ericz-home/toolbox:2023-09-17',
               imagePullPolicy: 'Always',
               args: ['rotate'],
               env: [
