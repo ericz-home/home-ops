@@ -2,7 +2,7 @@ resource "vault_policy" "ingress_issuer_policy" {
   name = "ingress_issuer_policy"
 
   policy = <<EOF
-path "pki/+/lab/+/sign/lab-ingress-role" {
+path "pki/lab/+/sign/lab-ingress-role" {
   capabilities = ["create", "update"]
 }
 EOF
@@ -22,7 +22,7 @@ resource "vault_policy" "internal_issuer_policy" {
   name = "internal_issuer_policy"
 
   policy = <<EOF
-path "pki/+/lab/+/sign/lab-internal-role" {
+path "pki/lab/+/sign/lab-internal-role" {
   capabilities = ["create", "update"]
 }
 EOF

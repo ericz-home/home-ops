@@ -1,5 +1,5 @@
-resource "vault_mount" "pki-lab" {
-  path        = "pki/v2023/lab/v2023"
+resource "vault_mount" "pki-lab-2024" {
+  path        = "pki/lab/v2024"
   type        = "pki"
   description = "lab intermediate CA"
 
@@ -10,9 +10,9 @@ resource "vault_mount" "pki-lab" {
 }
 
 resource "vault_pki_secret_backend_role" "lab-ingress-role" {
-  backend = vault_mount.pki-lab.path
+  backend = vault_mount.pki-lab-2024.path
   name    = "lab-ingress-role"
-  max_ttl = vault_mount.pki-lab.max_lease_ttl_seconds
+  max_ttl = vault_mount.pki-lab-2024.max_lease_ttl_seconds
 
   allowed_domains  = ["lab.home"]
   allow_subdomains = true
@@ -25,9 +25,9 @@ resource "vault_pki_secret_backend_role" "lab-ingress-role" {
 }
 
 resource "vault_pki_secret_backend_role" "lab-internal-role" {
-  backend = vault_mount.pki-lab.path
+  backend = vault_mount.pki-lab-2024.path
   name    = "lab-internal-role"
-  max_ttl = vault_mount.pki-lab.max_lease_ttl_seconds
+  max_ttl = vault_mount.pki-lab-2024.max_lease_ttl_seconds
 
   allowed_domains    = concat(var.k8s_svc, var.k8s_ns, ["svc.cluster.local", "svc"])
   allow_subdomains   = true
@@ -41,11 +41,11 @@ resource "vault_pki_secret_backend_role" "lab-internal-role" {
   province     = ["WA"]
 }
 
-resource "vault_pki_secret_backend_intermediate_cert_request" "lab_cert" {
-  depends_on   = [vault_mount.pki-lab]
-  backend      = vault_mount.pki-lab.path
+resource "vault_pki_secret_backend_intermediate_cert_request" "lab_cert_2024" {
+  depends_on   = [vault_mount.pki-lab-2024]
+  backend      = vault_mount.pki-lab-2024.path
   type         = "internal"
-  common_name  = "Lab intermediate CA"
+  common_name  = "Lab intermediate CA 2024"
   key_type     = "rsa"
   key_bits     = "2048"
   ou           = "lab intermediate"
@@ -55,11 +55,10 @@ resource "vault_pki_secret_backend_intermediate_cert_request" "lab_cert" {
   locality     = "Seattle"
 }
 
-resource "vault_pki_secret_backend_intermediate_set_signed" "lab_signed_cert" {
+resource "vault_pki_secret_backend_intermediate_set_signed" "lab_signed_cert_2024" {
   count = var.signed_cert_file == "" ? 0 : 1
 
-  depends_on  = [vault_mount.pki-lab]
-  backend     = vault_mount.pki-lab.path
+  depends_on  = [vault_mount.pki-lab-2024]
+  backend     = vault_mount.pki-lab-2024.path
   certificate = file("${var.signed_cert_file}")
 }
-

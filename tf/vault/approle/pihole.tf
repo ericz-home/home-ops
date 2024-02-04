@@ -2,7 +2,7 @@ resource "vault_policy" "pihole_issuer_policy" {
   name = "pihole_issuer_policy"
 
   policy = <<EOF
-path "pki/+/lab/+/issue/pihole-role" {
+path "pki/lab/+/issue/pihole-role" {
   capabilities = ["create", "update", "read"]
 }
 EOF
