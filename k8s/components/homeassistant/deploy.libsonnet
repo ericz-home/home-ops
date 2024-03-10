@@ -31,6 +31,22 @@ local vault_annotations =
     'vault.hashicorp.com/agent-inject-command-mealie': |||
       ln -s /vault/secrets/mealie /config/packages/mealie/secrets.yaml
     |||,
+  } +
+  // add onebusaway secrets
+  {
+    'vault.hashicorp.com/agent-inject-perms-gtfs': '0600',
+    'vault.hashicorp.com/agent-inject-secret-gtfs': 'secrets/homeassistant/gtfs',
+    'vault.hashicorp.com/agent-inject-template-gtfs': |||
+      {{ with secret "secrets/homeassistant/gtfs" -}}
+        bus_trip_update_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/trip-updates-for-agency/1.pb?key={{ .Data.data.api_key }}"
+        bus_vehicle_position_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/vehicle-positions-for-agency/1.pb?key={{ .Data.data.api_key }}""
+        rail_trip_update_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/trip-updates-for-agency/40.pb?key={{ .Data.data.api_key }}"
+        rail_vehicle_position_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/vehicle-positions-for-agency/40.pb?key={{ .Data.data.api_key }}"
+      {{- end }}
+    |||,
+    'vault.hashicorp.com/agent-inject-command-gtfs': |||
+      ln -s /vault/secrets/gtfs /config/packages/gtfs_rt/secrets.yaml
+    |||,
   };
 
 local git_sync =
