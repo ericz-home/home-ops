@@ -45,6 +45,10 @@ local vault_annotations = {
                   value: 'tailscalex-secrets-role',
                 },
                 {
+                  name: 'TS_EXPIRE_WITHIN',
+                  value: '720h',
+                },
+                {
                   name: 'TS_TOKEN_FILE',
                   value: '/tmp/ts-token',
                 },
