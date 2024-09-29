@@ -64,7 +64,7 @@ local route = {
   spec: {
     parentRefs: [
       {
-        name: 'lab-gateway',
+        name: 'homeassistant-gateway',
         namespace: 'envoy-gateway',
       },
     ],

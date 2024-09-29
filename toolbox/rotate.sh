@@ -1,6 +1,6 @@
 #! /bin/sh
 
-set -euo pipefail
+set -euox pipefail
 
 echo "Starting rotation.."
 
@@ -27,6 +27,8 @@ for kind in $KINDS;  do
 
         echo "looking up vault key id for $vault_path"
         key_id=$(vault kv get -field="id" $vault_path)
+
+        echo "$KEYS" | grep "$key_id"
 
         desc=$(echo "$KEYS" | grep $key_id | cut -d '|' -f 2) 
         if [ "$desc" == "" ]; then

@@ -4,7 +4,7 @@
   metadata: {
     name: 'homeassistant',
     labels: {
-      'lab.home/allow-ingress': 'true',
+      'lab.home/gateway': 'homeassistant',
     },
   },
 }
