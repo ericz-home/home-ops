@@ -45,4 +45,4 @@ local makeGateway(site) = {
   },
 };
 
-[makeGateway('homeassistant')]
+[makeGateway(site) for site in ['homeassistant', 'vault', 'mealie']]
