@@ -15,7 +15,7 @@ local vault_annotations =
     'vault.hashicorp.com/agent-inject-secret-ssh-privatekey': 'secrets/homeassistant/ssh',
     'vault.hashicorp.com/agent-inject-template-ssh-privatekey': |||
       {{ with secret "secrets/homeassistant/ssh" -}}
-        {{ .Data.data.privatekey }}
+      {{ .Data.data.privatekey }}
       {{- end }}
     |||,
   } +
@@ -25,11 +25,11 @@ local vault_annotations =
     'vault.hashicorp.com/agent-inject-secret-mealie': 'secrets/homeassistant/mealie',
     'vault.hashicorp.com/agent-inject-template-mealie': |||
       {{ with secret "secrets/homeassistant/mealie" -}}
-        mealie_api_token: Bearer {{ .Data.data.api_token }}
+      mealie_api_token: Bearer {{ .Data.data.api_token }}
       {{- end }}
     |||,
     'vault.hashicorp.com/agent-inject-command-mealie': |||
-      ln -s /vault/secrets/mealie /config/packages/mealie/secrets.yaml
+      ln -sf /vault/secrets/mealie /config/packages/mealie/secrets.yaml
     |||,
   } +
   // add onebusaway secrets
@@ -38,14 +38,14 @@ local vault_annotations =
     'vault.hashicorp.com/agent-inject-secret-gtfs': 'secrets/homeassistant/gtfs',
     'vault.hashicorp.com/agent-inject-template-gtfs': |||
       {{ with secret "secrets/homeassistant/gtfs" -}}
-        bus_trip_update_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/trip-updates-for-agency/1.pb?key={{ .Data.data.api_key }}"
-        bus_vehicle_position_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/vehicle-positions-for-agency/1.pb?key={{ .Data.data.api_key }}""
-        rail_trip_update_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/trip-updates-for-agency/40.pb?key={{ .Data.data.api_key }}"
-        rail_vehicle_position_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/vehicle-positions-for-agency/40.pb?key={{ .Data.data.api_key }}"
+      bus_trip_update_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/trip-updates-for-agency/1.pb?key={{ .Data.data.api_key }}"
+      bus_vehicle_position_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/vehicle-positions-for-agency/1.pb?key={{ .Data.data.api_key }}"
+      rail_trip_update_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/trip-updates-for-agency/40.pb?key={{ .Data.data.api_key }}"
+      rail_vehicle_position_url: "http://api.pugetsound.onebusaway.org/api/gtfs_realtime/vehicle-positions-for-agency/40.pb?key={{ .Data.data.api_key }}"
       {{- end }}
     |||,
     'vault.hashicorp.com/agent-inject-command-gtfs': |||
-      ln -s /vault/secrets/gtfs /config/packages/gtfs_rt/secrets.yaml
+      ln -sf /vault/secrets/gtfs /config/packages/gtfs_rt/secrets.yaml
     |||,
   };
 

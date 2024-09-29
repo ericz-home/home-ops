@@ -3,5 +3,8 @@
   kind: 'Namespace',
   metadata: {
     name: 'homeassistant',
+    labels: {
+      'lab.home/allow-ingress': 'true',
+    },
   },
 }

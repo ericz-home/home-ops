@@ -54,4 +54,41 @@ local ingress = {
   },
 };
 
-[ingress]
+local route = {
+  apiVersion: 'gateway.networking.k8s.io/v1',
+  kind: 'HTTPRoute',
+  metadata: {
+    name: 'homeassistant',
+    namespace: 'homeassistant',
+  },
+  spec: {
+    parentRefs: [
+      {
+        name: 'lab-gateway',
+        namespace: 'envoy-gateway',
+      },
+    ],
+    hostnames: ['homeassistant.lab.home'],
+    rules: [
+      {
+        backendRefs: [
+          {
+            kind: 'Service',
+            name: 'homeassistant',
+            port: 8123,
+          },
+        ],
+        matches: [
+          {
+            path: {
+              type: 'PathPrefix',
+              value: '/',
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
+[ingress, route]
