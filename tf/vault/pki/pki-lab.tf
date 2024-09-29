@@ -29,10 +29,8 @@ resource "vault_pki_secret_backend_role" "lab-internal-role" {
   name    = "lab-internal-role"
   max_ttl = vault_mount.pki-lab-2024.max_lease_ttl_seconds
 
-  allowed_domains    = concat(var.k8s_svc, var.k8s_ns, ["svc.cluster.local", "svc"])
-  allow_subdomains   = true
-  allow_bare_domains = true
-  require_cn         = true
+  allow_any_name = true
+  require_cn     = true
 
   ou           = ["k3s"]
   organization = ["EZ Homelab"]
