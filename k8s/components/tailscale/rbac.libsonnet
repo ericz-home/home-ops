@@ -2,7 +2,7 @@ local role = {
   apiVersion: 'rbac.authorization.k8s.io/v1',
   kind: 'Role',
   metadata: {
-    name: 'tailscale',
+    name: 'coredns',
     namespace: 'tailscale',
   },
   rules: [
@@ -24,18 +24,18 @@ local binding = {
   apiVersion: 'rbac.authorization.k8s.io/v1',
   kind: 'RoleBinding',
   metadata: {
-    name: 'tailscale',
+    name: 'coredns',
     namespace: 'tailscale',
   },
   subjects: [
     {
       kind: 'ServiceAccount',
-      name: 'tailscale',
+      name: 'coredns',
     },
   ],
   roleRef: {
     kind: 'Role',
-    name: 'tailscale',
+    name: 'coredns',
     apiGroup: 'rbac.authorization.k8s.io',
   },
 };

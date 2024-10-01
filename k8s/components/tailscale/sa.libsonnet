@@ -2,7 +2,7 @@
   apiVersion: 'v1',
   kind: 'ServiceAccount',
   metadata: {
-    name: 'tailscale',
+    name: 'coredns',
     namespace: 'tailscale',
   },
 }

@@ -3,7 +3,7 @@ variable "services" {
   description = "list of services that need access to secrets"
   default = {
     "homeassistant"   = ["homeassistant"],
-    "tailscale"       = ["tailscale"],
+    "tailscale"       = ["coredns", "operator"],
     "projectcontour"  = ["envoy"],
     "feeds-to-pocket" = ["feeds-to-pocket"],
     "toolbox"         = ["toolbox"]

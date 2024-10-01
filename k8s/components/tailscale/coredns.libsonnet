@@ -120,7 +120,7 @@ local deployment = {
             ],
           },
         ],
-        serviceAccountName: 'tailscale',
+        serviceAccountName: 'coredns',
         volumes: [
           {
             name: 'config',

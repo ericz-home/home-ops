@@ -27,6 +27,13 @@ local envoyProxy = {
   },
   spec: {
     mergeGateways: true,
+    provider: {
+      type: 'Kubernetes',
+      kubernetes: {
+        envoyService: {
+        },
+      },
+    },
   },
 };
 
