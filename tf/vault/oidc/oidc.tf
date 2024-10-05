@@ -16,7 +16,7 @@ resource "vault_identity_oidc_scope" "groups" {
 resource "vault_identity_oidc_provider" "oidc_provider" {
   name               = "lab-oidc-provider"
   https_enabled      = true
-  issuer_host        = "vault.lab.home:8443"
+  issuer_host        = "vault.lab.home:4443"
   allowed_client_ids = [vault_identity_oidc_client.kubelogin.client_id]
   scopes_supported = [
     vault_identity_oidc_scope.groups.name,

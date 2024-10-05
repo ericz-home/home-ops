@@ -33,6 +33,26 @@ local vault_annotations =
   };
 
 
+local proxyClass = {
+  apiVersion: 'tailscale.com/v1alpha1',
+  kind: 'ProxyClass',
+  metadata: {
+    name: 'lab',
+    namespace: 'tailscale',
+  },
+  spec: {
+    statefulSet: {
+      pod: {
+        tailscaleContainer: {
+          securityContext: {
+            privileged: true,
+          },
+        },
+      },
+    },
+  },
+};
+
 [
   if x.kind == 'Deployment' && x.metadata.name == 'operator' then x {
     spec+: {
@@ -62,4 +82,4 @@ local vault_annotations =
   } else if x.kind != 'IngressClass' then x
   for x in objs
   if x != null
-]
+] + [proxyClass]

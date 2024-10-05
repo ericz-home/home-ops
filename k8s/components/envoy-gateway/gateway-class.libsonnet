@@ -31,6 +31,19 @@ local envoyProxy = {
       type: 'Kubernetes',
       kubernetes: {
         envoyService: {
+          annotations: {
+            'tailscale.com/expose': 'true',
+          },
+          patch: {
+            type: 'StrategicMerge',
+            value: {
+              metadata: {
+                labels: {
+                  'tailscale.com/proxy-class': 'lab',
+                },
+              },
+            },
+          },
         },
       },
     },

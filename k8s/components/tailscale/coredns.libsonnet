@@ -14,25 +14,6 @@ local configmap = {
   },
 };
 
-local vault_annotations =
-  {
-    'vault.hashicorp.com/tls-secret': 'lab-ca',
-    'vault.hashicorp.com/ca-cert': '/vault/tls/ca.crt',
-    'vault.hashicorp.com/role': 'tailscale-secrets-role',
-    'vault.hashicorp.com/agent-inject': 'true',
-    'vault.hashicorp.com/agent-pre-populate-only': 'true',
-    'vault.hashicorp.com/agent-run-as-user': '1000',
-  } +
-  // add tailscale authkey
-  {
-    'vault.hashicorp.com/agent-inject-secret-tailscale': 'secrets/tailscale/coredns',
-    'vault.hashicorp.com/agent-inject-template-tailscale': |||
-      {{ with secret "secrets/tailscale/coredns" -}}
-        export TS_AUTHKEY="{{ .Data.data.authkey }}"
-      {{- end }}
-    |||,
-  };
-
 local deployment = {
   apiVersion: 'apps/v1',
   kind: 'Deployment',
@@ -55,7 +36,6 @@ local deployment = {
         labels: {
           app: 'coredns',
         },
-        annotations: vault_annotations,
       },
       spec: {
         containers: [
@@ -83,42 +63,6 @@ local deployment = {
               },
             ],
           },
-          {
-            name: 'tailscale',
-            imagePullPolicy: 'Always',
-            image: 'ghcr.io/tailscale/tailscale:latest',
-            securityContext: {
-              capabilities: {
-                add: ['NET_ADMIN'],
-              },
-            },
-            command: ['/bin/sh', '-c'],
-            args: ['source /vault/secrets/tailscale && /usr/local/bin/containerboot'],
-            env: [
-              {
-                name: 'TS_KUBE_SECRET',
-                value: 'coredns-auth',
-              },
-              {
-                name: 'TS_USERSPACE',
-                value: 'false',
-              },
-              {
-                name: 'TS_AUTH_ONCE',
-                value: 'true',
-              },
-              {
-                name: 'TS_HOSTNAME',
-                value: 'dns-tailscale',
-              },
-            ],
-            volumeMounts: [
-              {
-                name: 'tun',
-                mountPath: '/dev/net/tun',
-              },
-            ],
-          },
         ],
         serviceAccountName: 'coredns',
         volumes: [
@@ -128,16 +72,42 @@ local deployment = {
               name: 'coredns',
             },
           },
-          {
-            name: 'tun',
-            hostPath: {
-              path: '/dev/net/tun',
-            },
-          },
         ],
       },
     },
   },
 };
 
-[configmap, deployment]
+local svc = {
+  apiVersion: 'v1',
+  kind: 'Service',
+  metadata: {
+    name: 'coredns',
+    namespace: 'tailscale',
+    labels: {
+      'tailscale.com/proxy-class': 'lab',
+    },
+    annotations: {
+      'tailscale.com/expose': 'true',
+    },
+  },
+  spec: {
+    selector: {
+      app: 'coredns',
+    },
+    ports: [
+      {
+        name: 'dns',
+        protocol: 'UDP',
+        port: 53,
+      },
+      {
+        name: 'dns-tcp',
+        protocol: 'TCP',
+        port: 53,
+      },
+    ],
+  },
+};
+
+[configmap, deployment, svc]
