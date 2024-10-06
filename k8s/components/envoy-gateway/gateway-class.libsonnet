@@ -33,6 +33,8 @@ local envoyProxy = {
         envoyService: {
           annotations: {
             'tailscale.com/expose': 'true',
+            'tailscale.com/hostname': 'lab-gw',
+            'tailscale.com/tags': 'tag:lab',
           },
           patch: {
             type: 'StrategicMerge',
