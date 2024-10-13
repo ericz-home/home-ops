@@ -31,10 +31,11 @@ local envoyProxy = {
       type: 'Kubernetes',
       kubernetes: {
         envoyService: {
+          name: 'envoy-lab-gateway',
           annotations: {
             'tailscale.com/expose': 'true',
-            'tailscale.com/hostname': 'lab-gw',
-            'tailscale.com/tags': 'tag:lab',
+            'tailscale.com/hostname': 'lab-gateway',
+            'tailscale.com/tags': 'tag:lab,tag:k8s',
           },
           patch: {
             type: 'StrategicMerge',
