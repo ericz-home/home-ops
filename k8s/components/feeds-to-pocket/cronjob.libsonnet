@@ -36,7 +36,7 @@ local vault_annotations = {
           spec: {
             containers: [{
               name: 'feeds-to-pocket',
-              image: 'ghcr.io/ericz-home/feeds-to-pocket:2023-08-28',
+              image: 'ghcr.io/ericz-home/feeds-to-pocket:2024-10-13',
               imagePullPolicy: 'Always',
               args: [
                 '/feeds/feeds-to-pocket.yaml',
