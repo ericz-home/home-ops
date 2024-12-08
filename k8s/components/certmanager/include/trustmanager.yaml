@@ -1,0 +1,8 @@
+namespace: certmanager
+secretTargets:
+  enabled: true
+  authorizedSecrets:
+    - lab-ca
+app:
+  trust:
+    namespace: certmanager

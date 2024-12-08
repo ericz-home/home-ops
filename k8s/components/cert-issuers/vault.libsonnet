@@ -1,8 +1,3 @@
-local caOld = importstr 'data://get-ca/out/Lab_Root.crt';
-local caNew = importstr 'data://get-ca/out/Lab_Root_2029.crt';
-local ca = std.base64(caOld + caNew);
-
-
 local issuer = function(name, role)
   [
     {
@@ -37,7 +32,10 @@ local issuer = function(name, role)
         vault: {
           path: 'pki/lab/v2025/sign/' + role,
           server: 'https://vault.vault.svc.cluster.local:8200',
-          caBundle: ca,
+          caBundleSecretRef: {
+            name: 'lab-ca',
+            key: 'ca.crt',
+          },
           auth: {
             kubernetes: {
               role: name,

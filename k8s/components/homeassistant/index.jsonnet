@@ -1,4 +1,3 @@
-local ca = import 'ca.libsonnet';
 local deploy = import 'deploy.libsonnet';
 local ingress = import 'ingress.libsonnet';
 local ns = import 'ns.libsonnet';
@@ -18,7 +17,6 @@ local merge(arr, o) =
 std.foldl(merge, [
   ns,
   sa,
-  ca,
   deploy,
   ingress,
   pvc,
