@@ -1,5 +1,3 @@
-local ca = std.base64(importstr 'data://get-ca/out/Lab_Root.crt');
-
 local gatewayClass = {
   apiVersion: 'gateway.networking.k8s.io/v1',
   kind: 'GatewayClass',
@@ -117,7 +115,10 @@ local issuer = [
       vault: {
         path: 'pki/lab/v2025/sign/lab-ingress-role',
         server: 'https://vault.vault.svc.cluster.local:8200',
-        caBundle: ca,
+        caBundleSecretRef: {
+          name: 'lab-ca',
+          key: 'ca.crt',
+        },
         auth: {
           kubernetes: {
             role: 'ingress-issuer',

@@ -11,8 +11,8 @@ EOF
 resource "vault_kubernetes_auth_backend_role" "ingress_issuer_role" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "ingress-issuer"
-  bound_service_account_names      = ["ingress-issuer", "gateway-issuer"]
-  bound_service_account_namespaces = ["cert-issuers", "envoy-gateway"]
+  bound_service_account_names      = ["gateway-issuer"]
+  bound_service_account_namespaces = ["envoy-gateway"]
   token_ttl                        = 3600
   token_policies                   = [vault_policy.ingress_issuer_policy.name]
   audience                         = null
@@ -32,7 +32,7 @@ resource "vault_kubernetes_auth_backend_role" "internal_issuer_role" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "internal-issuer"
   bound_service_account_names      = ["internal-issuer"]
-  bound_service_account_namespaces = ["cert-issuers"]
+  bound_service_account_namespaces = ["certmanager"]
   token_ttl                        = 3600
   token_policies                   = [vault_policy.internal_issuer_policy.name]
   audience                         = null

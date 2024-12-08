@@ -1,12 +1,12 @@
-local ca = importstr 'data://get-ca/out/Lab_Root_2029.crt';
-local caOld = importstr 'data://get-ca/out/Lab_Root.crt';
+local ca = importstr 'data://get-ca/root/2029/Lab_Root_2029.crt';
+local caOld = importstr 'data://get-ca/root/2024/Lab_Root.crt';
 
 {
   apiVersion: 'trust.cert-manager.io/v1alpha1',
   kind: 'Bundle',
   metadata: {
     name: 'lab-ca',
-    namespace: 'cert-issuers',
+    namespace: 'certmanager',
   },
   spec: {
     sources: [

@@ -1,20 +1,5 @@
 [
-  {
-    apiVersion: 'networking.k8s.io/v1',
-    kind: 'IngressClass',
-    metadata: {
-      name: 'contour',
-      labels: {
-        'app.kubernetes.io/component': 'controller',
-      },
-      annotations: {
-        'ingressclass.kubernetes.io/is-default-class': 'true',
-      },
-    },
-    spec: {
-      controller: 'projectcontour.io/ingress-controller',
-    },
-  },
+  // RBAC for user login
   {
     apiVersion: 'rbac.authorization.k8s.io/v1',
     kind: 'ClusterRoleBinding',
@@ -34,6 +19,7 @@
       },
     ],
   },
+  // Namespace for terraform state files
   {
     apiVersion: 'v1',
     kind: 'Namespace',

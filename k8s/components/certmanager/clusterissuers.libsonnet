@@ -5,7 +5,7 @@ local issuer = function(name, role)
       kind: 'ServiceAccount',
       metadata: {
         name: name,
-        namespace: 'cert-issuers',
+        namespace: 'certmanager',
       },
     },
     {
@@ -13,7 +13,7 @@ local issuer = function(name, role)
       kind: 'Secret',
       metadata: {
         name: name + '-token',
-        namespace: 'cert-issuers',
+        namespace: 'certmanager',
         annotations: {
           'kubernetes.io/service-account.name': name,
         },
@@ -26,7 +26,7 @@ local issuer = function(name, role)
       kind: 'ClusterIssuer',
       metadata: {
         name: name,
-        namespace: 'cert-issuers',
+        namespace: 'certmanager',
       },
       spec: {
         vault: {

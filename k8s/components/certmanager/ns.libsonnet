@@ -4,7 +4,7 @@
   metadata: {
     name: 'certmanager',
     labels: {
-      name: 'certmanager',
+      'lab.home/trust-bundle': 'lab-ca-2029',
     },
   },
 }
