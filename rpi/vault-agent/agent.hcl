@@ -1,7 +1,7 @@
 pid_file = "/home/pi/work/vault/agent/pidfile"
  
 vault {
-  address = "https://vault.lab.home:8443"
+  address = "https://vault.lab.home:4443"
   ca_cert = "/home/pi/work/lab/ca.crt"
 }
  
@@ -29,7 +29,7 @@ cache {
  
 template {
   contents = <<EOF
-{{ with pkiCert "pki/v2023/lab/v2023/issue/pihole-role" "common_name=raspberrypi.home" "alt_names=pi.hole"}}
+{{ with pkiCert "pki/lab/v2025/issue/pihole-role" "common_name=raspberrypi.home" "alt_names=pi.hole"}}
 {{ .Data.Key }}
 {{ .Data.Cert }}
 {{ end }}
