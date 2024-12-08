@@ -113,7 +113,15 @@ local deploy = {
               },
               {
                 name: 'MPLCONFIGDIR',
-                value: '/config/matplotlib',
+                value: '/tmp/matplotlib',
+              },
+              {
+                name: 'XDG_CONFIG_HOME',
+                value: '/tmp/config',
+              },
+              {
+                name: 'XDG_CACHE_HOME',
+                value: '/tmp/cache',
               },
             ],
             ports: [
@@ -132,12 +140,20 @@ local deploy = {
                 name: 'config',
                 mountPath: '/config',
               },
+              {
+                name: 'tmp',
+                mountPath: '/tmp',
+              },
             ],
           },
         ],
         serviceAccountName: 'homeassistant',
         restartPolicy: 'Always',
         volumes: [
+          {
+            name: 'tmp',
+            emptyDir: {},
+          },
           {
             name: 'config',
             persistentVolumeClaim: {

@@ -1,4 +1,6 @@
-local ca = std.base64(importstr 'data://get-ca/out/Lab_Root.crt');
+local caOld = importstr 'data://get-ca/out/Lab_Root.crt';
+local caNew = importstr 'data://get-ca/out/Lab_Root_2029.crt';
+local ca = std.base64(caOld + caNew);
 
 
 local issuer = function(name, role)
@@ -33,7 +35,7 @@ local issuer = function(name, role)
       },
       spec: {
         vault: {
-          path: 'pki/lab/v2024/sign/' + role,
+          path: 'pki/lab/v2025/sign/' + role,
           server: 'https://vault.vault.svc.cluster.local:8200',
           caBundle: ca,
           auth: {
@@ -51,4 +53,4 @@ local issuer = function(name, role)
     },
   ];
 
-issuer('internal-issuer', 'lab-internal-role') + issuer('ingress-issuer', 'lab-ingress-role')
+issuer('internal-issuer', 'lab-internal-role')

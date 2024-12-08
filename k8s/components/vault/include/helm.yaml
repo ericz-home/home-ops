@@ -59,22 +59,6 @@ server:
       storage "file" {
         path = "/vault/data"
       }
-  service:
-    annotations:
-      projectcontour.io/upstream-protocol.tls: "8200"
-
-  ingress:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: ingress-issuer
-      cert-manager.io/common-name: vault.lab.home
-    hosts:
-      - host: vault.lab.home
-        paths: []
-    tls:
-      - secretName: vault-ingress-tls
-        hosts:
-          - vault.lab.home
 
 injector:
   enabled: true

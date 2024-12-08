@@ -1,7 +1,7 @@
 resource "vault_pki_secret_backend_role" "pihole-role" {
-  backend = vault_mount.pki-lab-2024.path
+  backend = vault_mount.pki-lab-2025.path
   name    = "pihole-role"
-  max_ttl = vault_mount.pki-lab-2024.max_lease_ttl_seconds
+  max_ttl = vault_mount.pki-lab-2025.max_lease_ttl_seconds
   ttl     = 7776000 // 90d 
 
   allowed_domains    = ["raspberrypi.home", "pi.hole"]

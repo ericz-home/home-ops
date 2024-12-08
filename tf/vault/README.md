@@ -68,7 +68,7 @@ Setup PKI by running `terraform apply` to generate the `csr`.
 Get the csr
 
 ```
- terraform show -json | jq '.values["root_module"]["resources"][].values.csr' -r | grep -v null > ~/Documents/work/pki/lab/lab.csr
+ terraform show -json | jq '.values["root_module"]["resources"][] | select(.name == "$name") | .values.csr' -r | grep -v null > ~/Documents/work/homelab/pki/lab/lab.csr
 ```
 
 Run certstrap to sign the key with the offline root 
@@ -83,5 +83,5 @@ cat lab/lab.crt out/Lab_Root.crt > lab/lab_full.crt
 
 Rerun `terraform apply` with the signed cert file
 ```
-terraform apply --var signed_cert_file=~/Documents/work/pki/lab/lab_full.crt
+terraform apply --var signed_cert_file=~/Documents/work/homelab/pki/lab/lab_full.crt
 ```
