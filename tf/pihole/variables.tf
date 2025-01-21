@@ -7,5 +7,5 @@ variable "api_token" {
 variable "url" {
   description = "pihole api url"
   type        = string
-  default     = "https://raspberrypi.home"
+  default     = "https://pi.hole"
 }
