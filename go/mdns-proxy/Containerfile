@@ -1,0 +1,18 @@
+FROM golang:1.23-bullseye as builder
+
+WORKDIR /src
+
+COPY ./ .
+
+RUN CGO_ENABLED=0 go build -o bin/mdns-proxy main.go
+
+FROM bitnami/kubectl:latest as kubectl
+
+FROM gcr.io/distroless/base-debian11:debug-nonroot
+
+LABEL org.opencontainers.image.source=https://github.com/ericz-home/home-ops
+
+COPY --from=builder --chown=nonroot /src/bin/mdns-proxy /usr/local/bin/
+
+ENTRYPOINT ["/usr/local/bin/mdns-proxy"]
+

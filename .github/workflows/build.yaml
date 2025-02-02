@@ -4,15 +4,23 @@ on:
   push:
     branches: ["main"]
     paths:
-      - "toolbox/**"
+      - "go/**"
       - ".github/workflows/**"
 
 jobs:
-  build-toolbox:
+  build-tailscalex:
     uses: ./.github/workflows/build_publish.yml
     permissions:
       packages: write
     with:
-      image: ${{ github.repository_owner }}/toolbox
-      workdir: ./toolbox
+      image: ${{ github.repository_owner }}/tailscalex
+      workdir: ./go/tailscalex
+    secrets: inherit
+  build-tailscalex:
+    uses: ./.github/workflows/build_publish.yml
+    permissions:
+      packages: write
+    with:
+      image: ${{ github.repository_owner }}/mdns-proxy
+      workdir: ./go/mdns-proxy
     secrets: inherit

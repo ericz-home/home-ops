@@ -1,8 +1,8 @@
-FROM golang:1.21-bullseye as builder
+FROM golang:1.23-bullseye as builder
 
 WORKDIR /src
 
-COPY ./tailscalex .
+COPY ./ .
 
 RUN CGO_ENABLED=0 go build -o bin/tailscalex main.go
 
@@ -20,7 +20,7 @@ COPY --from=builder --chown=nonroot /src/bin/tailscalex /usr/local/bin/
 COPY --from=jq --chown=nonroot /jq /usr/local/bin/
 COPY --from=kubectl --chown=nonroot /opt/bitnami/kubectl/bin/kubectl /usr/local/bin/
 COPY --from=vault --chown=nonroot /bin/vault /usr/local/bin/
-COPY --chown=nonroot rotate.sh entrypoint.sh /usr/local/bin/
+COPY --chown=nonroot scripts/* /usr/local/bin/
 
 ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
 
