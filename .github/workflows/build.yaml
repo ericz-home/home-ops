@@ -16,7 +16,7 @@ jobs:
       image: ${{ github.repository_owner }}/tailscalex
       workdir: ./go/tailscalex
     secrets: inherit
-  build-tailscalex:
+  build-mdns-proxy:
     uses: ./.github/workflows/build_publish.yml
     permissions:
       packages: write
