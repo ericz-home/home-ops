@@ -4,7 +4,7 @@ WORKDIR /src
 
 COPY ./ .
 
-RUN CGO_ENABLED=0 go build -o bin/mdns-proxy main.go
+RUN CGO_ENABLED=0 go build -o bin/mdns-proxy main.go zones.go
 
 FROM bitnami/kubectl:latest as kubectl
 
