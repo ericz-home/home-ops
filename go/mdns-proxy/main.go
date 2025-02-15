@@ -2,17 +2,15 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"log/slog"
-	"net"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
 
-	"github.com/flix-tech/k8s-mdns/mdns"
 	"github.com/godbus/dbus/v5"
+	"github.com/hashicorp/mdns"
 	"github.com/holoplot/go-avahi"
 )
 
@@ -32,14 +30,24 @@ func main() {
 
 	server := newAvahiServer()
 
+	zones := NewZones()
+	mdnsServer, err := mdns.NewServer(&mdns.Config{
+		Zone: zones,
+	})
+	if err != nil {
+		panic(err)
+	}
+
 	var wg sync.WaitGroup
-	svcCh := ListenForServices(&wg, server)
+	svcCh := ListenForServices(&wg, server, zones)
 	typesCh := ListenForServiceTypes(ctx, &wg, svcCh, server)
 
 	Run(ctx, typesCh, server)
 
 	close(svcCh)
 	close(typesCh)
+
+	mdnsServer.Shutdown()
 
 	slog.Info("Waiting for goroutines to exit")
 	wg.Wait()
@@ -138,7 +146,7 @@ func ListenForServiceTypes(ctx context.Context, wg *sync.WaitGroup, svcCh chan<-
 	return ch
 }
 
-func ListenForServices(wg *sync.WaitGroup, server *avahi.Server) chan<- svcEvent {
+func ListenForServices(wg *sync.WaitGroup, server *avahi.Server, zones *Zones) chan<- svcEvent {
 	ch := make(chan svcEvent)
 
 	wg.Add(1)
@@ -160,48 +168,14 @@ func ListenForServices(wg *sync.WaitGroup, server *avahi.Server) chan<- svcEvent
 			slog.Info("RESOLVED service", "addr", service.Address, "service", service)
 
 			if op.add {
-				publish(service.Host, service.Address)
+				zones.Publish(service)
 			} else {
-				unpublish(service.Host, service.Address)
+				zones.Unpublish(service)
 			}
 		}
 	}()
 
 	return ch
-}
-
-func unpublish(host string, addr string) {
-	for _, r := range records(host, addr) {
-		err := mdns.UnPublish(r)
-		if err != nil {
-			slog.Error("Failed to unpublish record", "host", host, "ip", addr, "error", err)
-		}
-	}
-}
-
-func publish(host string, addr string) {
-	for _, r := range records(host, addr) {
-		err := mdns.Publish(r)
-		if err != nil {
-			slog.Error("Failed to publish record", "host", host, "ip", addr, "error", err)
-		}
-	}
-}
-
-func records(host string, addr string) []string {
-	ip := net.ParseIP(addr)
-	if ip == nil {
-		slog.Error("Failed to parse ip", "addr", addr, "host", host)
-		return nil
-	}
-
-	reverseIp := net.IPv4(ip[15], ip[14], ip[13], ip[12])
-	records := []string{
-		fmt.Sprintf("%s. 120 IN A %s", host, ip),
-		fmt.Sprintf("%s.in-addr.arpa. 120 IN PTR %s.", reverseIp, host),
-	}
-
-	return records
 }
 
 func newAvahiServer() *avahi.Server {
