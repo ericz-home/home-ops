@@ -1,0 +1,11 @@
+[Unit]
+Description=socat forwarding of dbus socket
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=10
+ExecStart=/usr/bin/socat UNIX-LISTEN:/home/home/Documents/work/k3s/mdns/dbus.sock,fork,user=1000,group=1000,mode=777 UNIX-CONNECT:/var/run/dbus/system_bus_socket
+[Install]
+WantedBy=default.target
+
