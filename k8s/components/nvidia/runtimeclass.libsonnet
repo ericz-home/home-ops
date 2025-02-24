@@ -4,5 +4,5 @@
   metadata: {
     name: 'nvidia',
   },
-  handle: 'nvidia',
+  handler: 'nvidia',
 }
