@@ -16,6 +16,12 @@ path "sys/auth"
   capabilities = ["read"]
 }
 
+# read default policy
+path "sys/policy/default"
+{
+  capabilities = ["read"]
+}
+
 # List existing policies
 path "sys/policies/acl"
 {
@@ -42,6 +48,11 @@ path "pki/*"
 # To create an entity and entity alias. Enable and configure Vault as an OIDC provider
 path "identity/*" {
   capabilities = [ "create", "read", "update", "patch", "delete", "list" ]
+}
+
+# allow updating entity itself
+path "identity/entity/id/{{identity.entity.id}}" {
+  capabilities = [ "read", "update", "patch" ]
 }
 
 

@@ -26,6 +26,9 @@ resource "vault_generic_endpoint" "admin_user" {
 
 resource "vault_identity_entity" "admin_entity" {
   name = var.admin_user
+  metadata = {
+    email = "${var.admin_user}@lab.home"
+  }
 }
 
 resource "vault_identity_entity_alias" "admin_entity_alias" {

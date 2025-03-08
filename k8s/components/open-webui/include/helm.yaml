@@ -1,0 +1,82 @@
+namespaceOverride: open-webui
+
+ollama:
+  enabled: false
+
+pipelines:
+  enabled: false
+
+ollamaUrls: ['http://ollama.ollama.svc.cluster.local:11434']
+
+image:
+  pullPolicy: "Always"
+
+podAnnotations:
+  'vault.hashicorp.com/tls-secret': 'lab-ca'
+  'vault.hashicorp.com/ca-cert': '/vault/tls/ca.crt'
+  'vault.hashicorp.com/role': 'open-webui-secrets-role'
+  'vault.hashicorp.com/agent-inject': 'true'
+  'vault.hashicorp.com/agent-pre-populate-only': 'true'
+  'vault.hashicorp.com/agent-init-first': 'true'
+  'vault.hashicorp.com/agent-inject-secret-oidc': 'secrets/open-webui/oidc'
+  'vault.hashicorp.com/agent-inject-template-oidc': |
+    {{ with secret "secrets/open-webui/oidc" -}} 
+      export OAUTH_CLIENT_ID="{{ .Data.data.client_id }}" 
+      export OAUTH_CLIENT_SECRET="{{ .Data.data.client_secret }}"
+    {{- end }}
+  'vault.hashicorp.com/agent-inject-secret-openai': 'secrets/open-webui/openai'
+  'vault.hashicorp.com/agent-inject-template-openai': |
+    {{ with secret "secrets/open-webui/openai" -}} 
+      export OPENAI_API_KEY="{{ .Data.data.api_key }}" 
+    {{- end }}
+
+serviceAccount:
+  automountServiceAccountToken: true
+
+persistence:
+  existingClaim: open-webui-pvc
+
+volumeMounts:
+  container:
+    - name: lab-ca
+      mountPath: /usr/local/share/ca-certificates/lab-ca.crt
+      subPath: ca.crt
+
+volumes:
+  - name: lab-ca
+    secret:
+      secretName: lab-ca
+
+
+extraEnvVars:
+  - name:   RAG_EMBEDDING_ENGINE 
+    value:  'ollama'
+  - name:   OPENID_PROVIDER_URL 
+    value: 'https://vault.vault.svc.cluster.local:8200/v1/identity/oidc/provider/lab-oidc-provider/.well-known/openid-configuration'
+  - name:   OAUTH_PROVIDER_NAME 
+    value:  'Vault'
+  - name:   OAUTH_USERNAME_CLAIM 
+    value:  'username'
+  - name:   OAUTH_EMAIL_CLAIM 
+    value:  'email'
+  - name:   OAUTH_SCOPES
+    value:  'openid email user roles groups'
+  - name:   OAUTH_ALLOWED_DOMAINS 
+    value:  'lab.home,'
+  - name:   OAUTH_MERGE_ACCOUNTS_BY_EMAIL 
+    value:  'True'
+  - name:   ENABLE_OAUTH_GROUP_MANAGEMENT 
+    value:  'True'
+  - name:   ENABLE_OAUTH_ROLE_MANAGEMENT 
+    value:  'True'
+  - name:   ENABLE_SIGNUP 
+    value:  'False'
+  - name:   ENABLE_LOGIN_FORM 
+    value:  'False'
+  - name:   ENABLE_OAUTH_SIGNUP 
+    value:  'True'
+  - name:   SSL_CERT_FILE
+    value:  '/etc/ssl/certs/ca-certificates.crt'
+  - name: CORS_ALLOW_ORIGIN
+    value: 'https://open-webuilab.home:4443;http://localhost:8080'
+

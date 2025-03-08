@@ -69,7 +69,7 @@ local git_sync =
     ],
     command: ['/bin/sh', '-c'],
     args: [
-      'git pull || git clone git@github.com:ericz-home/homeassistant-config.git .',
+      '(git submodule update --init --recursive; git pull --recurse-submodules) || git clone git@github.com:ericz-home/homeassistant-config.git .',
     ],
   };
 
@@ -117,11 +117,11 @@ local deploy = {
               },
               {
                 name: 'XDG_CONFIG_HOME',
-                value: '/tmp/config',
+                value: '/config/container-venv/xdg/config',
               },
               {
                 name: 'XDG_CACHE_HOME',
-                value: '/tmp/cache',
+                value: '/config/container-venv/xdg/cache',
               },
             ],
             ports: [
@@ -141,8 +141,28 @@ local deploy = {
                 mountPath: '/config',
               },
               {
+                name: 'config',
+                mountPath: '/etc/services.d/home-assistant/run',
+                subPath: 'container-venv/run',
+              },
+              {
                 name: 'tmp',
                 mountPath: '/tmp',
+              },
+            ],
+          },
+          {
+            image: 'ghcr.io/ericz-home/mdns-proxy:2025-02-15',
+            imagePullPolicy: 'Always',
+            name: 'mdns-proxy',
+            volumeMounts: [
+              {
+                name: 'avahi',
+                mountPath: '/var/run/avahi-daemon/socket',
+              },
+              {
+                name: 'dbus',
+                mountPath: '/var/run/dbus/system_bus_socket',
               },
             ],
           },
@@ -164,6 +184,20 @@ local deploy = {
             name: 'localtime',
             hostPath: {
               path: '/etc/localtime',
+            },
+          },
+          {
+            name: 'avahi',
+            hostPath: {
+              path: '/home/home/Documents/work/k3s/mdns/avahi.sock',
+              type: 'Socket',
+            },
+          },
+          {
+            name: 'dbus',
+            hostPath: {
+              path: '/home/home/Documents/work/k3s/mdns/dbus.sock',
+              type: 'Socket',
             },
           },
         ],

@@ -2,11 +2,8 @@ data "vault_identity_entity" "admin_entity" {
   entity_name = var.admin_user
 }
 
-resource "vault_identity_group" "kube_admins" {
-  name = "kube_admins"
-  type = "internal"
-
-  member_entity_ids = [data.vault_identity_entity.admin_entity.id]
+data "vault_identity_group" "admin_group" {
+  group_name = "admins"
 }
 
 resource "vault_identity_oidc_assignment" "kube_assignment" {
@@ -15,7 +12,7 @@ resource "vault_identity_oidc_assignment" "kube_assignment" {
     data.vault_identity_entity.admin_entity.id
   ]
   group_ids = [
-    vault_identity_group.kube_admins.id
+    data.vault_identity_group.admin_group.id
   ]
 }
 

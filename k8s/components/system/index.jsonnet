@@ -15,7 +15,7 @@
       {
         apiGroup: 'rbac.authorization.k8s.io',
         kind: 'Group',
-        name: 'oidc:kube_admins',
+        name: 'oidc:admins',
       },
     ],
   },
