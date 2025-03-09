@@ -1,3 +1,4 @@
+local certs = import 'certificates.libsonnet';
 local deploy = import 'deploy.libsonnet';
 local ingress = import 'ingress.libsonnet';
 local ns = import 'ns.libsonnet';
@@ -20,4 +21,5 @@ std.foldl(merge, [
   deploy,
   ingress,
   pvc,
+  certs,
 ], [])

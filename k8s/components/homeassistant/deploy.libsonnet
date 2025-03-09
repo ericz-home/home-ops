@@ -123,6 +123,10 @@ local deploy = {
                 name: 'XDG_CACHE_HOME',
                 value: '/config/container-venv/xdg/cache',
               },
+              {
+                name: 'UV_NO_CACHE',
+                value: 'false',
+              },
             ],
             ports: [
               {
@@ -145,10 +149,6 @@ local deploy = {
                 mountPath: '/etc/services.d/home-assistant/run',
                 subPath: 'container-venv/run',
               },
-              {
-                name: 'tmp',
-                mountPath: '/tmp',
-              },
             ],
           },
           {
@@ -170,10 +170,6 @@ local deploy = {
         serviceAccountName: 'homeassistant',
         restartPolicy: 'Always',
         volumes: [
-          {
-            name: 'tmp',
-            emptyDir: {},
-          },
           {
             name: 'config',
             persistentVolumeClaim: {
