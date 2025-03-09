@@ -18,7 +18,7 @@ local render = function()
           },
         },
       },
-    }
+    } else x
     for x in objs
   ];
 

@@ -10,6 +10,7 @@ ollamaUrls: ['http://ollama.ollama.svc.cluster.local:11434']
 
 image:
   pullPolicy: "Always"
+  tag: "latest"
 
 podAnnotations:
   'vault.hashicorp.com/tls-secret': 'lab-ca'
