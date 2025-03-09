@@ -1,0 +1,8 @@
+# z2m
+user zigbee2mqtt
+topic zigbee2mqtt/+
+topic homeassistant/+
+
+# HA
+user homeassistant
+topic homeassistant/+
