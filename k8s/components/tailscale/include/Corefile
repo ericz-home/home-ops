@@ -1,4 +1,4 @@
-lab.home {
+home {
     file /etc/coredns/db.lab.home
     log
     errors 
