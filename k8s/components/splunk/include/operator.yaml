@@ -1,0 +1,25 @@
+image:
+  repository: docker.io/splunk/splunk:latest
+
+splunkOperator:
+  clusterWideAccess: false
+
+  image:
+    repository: docker.io/splunk/splunk-operator:2.7.1-distroless
+
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+
+  volumes:
+    - name: app-staging
+      persistentVolumeClaim:
+        claimName: splunk-operator-app-download
+      resources:
+        requests:
+          storage: 5Gi
+
+  persistentVolumeClaim:
+    storageClassName: 'local-storage'
+

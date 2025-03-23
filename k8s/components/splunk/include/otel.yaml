@@ -1,0 +1,20 @@
+clusterName: k3s.home
+splunkPlatform:
+  endpoint: https://splunk-splunk-standalone-service:8088/services/collector
+  index: k8s
+  insecureSkipVerify: true
+
+secret:
+  create: false
+  name: splunk-otel-collector
+
+agent:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+  hostNetwork: false
+
+
+logsCollection:
+  containers:
+    enabled: true
