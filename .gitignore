@@ -1,5 +1,7 @@
 .terraform*
 *.crt
+*.key
 token
+.DS_Store
 
 toolbox/*/bin
