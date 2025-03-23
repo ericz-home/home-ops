@@ -1,0 +1,49 @@
+image:
+  pullPolicy: 'Always'
+  tag: 'latest'
+
+service:
+  type: 'ClusterIP'
+
+secretesMigratorContainer:
+  securityContext:
+    runAsUser: 1000
+
+statefulset:
+  storage:
+    enabled: true
+    storageClassName: 'local-storage'
+    existingVolume: 'zigbee2mqtt-data'
+
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+
+  securityContext: {}
+
+  volumeMounts:
+    - name: mqtt-auth
+      mountPath: /app/data/certs
+
+  volumes:
+    - name: mqtt-auth
+      secret:
+        defaultMode: 420
+        secretName: 'mqtt-auth'
+
+zigbee2mqtt:
+  homeassistant:
+    status_topic: 'homeassistant/status'
+  mqtt:
+    server: 'mqtts://mqtt.mqtt.svc.cluster.local:8883'
+    ca: '/app/data/certs/ca.crt'
+    key: '/app/data/certs/tls.key'
+    cert: '/app/data/certs/tls.crt'
+  serial:
+    port: tcp://192.168.100.112:6638
+    baudrate: 115200
+    adapter: ember
+  # Set output power to max 20
+  advanced:
+    transmit_power: 20

@@ -151,21 +151,6 @@ local deploy = {
               },
             ],
           },
-          {
-            image: 'ghcr.io/ericz-home/mdns-proxy:2025-02-15',
-            imagePullPolicy: 'Always',
-            name: 'mdns-proxy',
-            volumeMounts: [
-              {
-                name: 'avahi',
-                mountPath: '/var/run/avahi-daemon/socket',
-              },
-              {
-                name: 'dbus',
-                mountPath: '/var/run/dbus/system_bus_socket',
-              },
-            ],
-          },
         ],
         serviceAccountName: 'homeassistant',
         restartPolicy: 'Always',
@@ -180,20 +165,6 @@ local deploy = {
             name: 'localtime',
             hostPath: {
               path: '/etc/localtime',
-            },
-          },
-          {
-            name: 'avahi',
-            hostPath: {
-              path: '/home/home/Documents/work/k3s/mdns/avahi.sock',
-              type: 'Socket',
-            },
-          },
-          {
-            name: 'dbus',
-            hostPath: {
-              path: '/home/home/Documents/work/k3s/mdns/dbus.sock',
-              type: 'Socket',
             },
           },
         ],
