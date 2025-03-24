@@ -1,15 +1,25 @@
-variable "admin_user" {
-  description = "admin username"
-  type        = string
-}
-
-variable "admin_password" {
-  description = "admin password"
-  type        = string
-  sensitive   = true
-}
-
 variable "bootstrap" {
   type    = bool
   default = false
+}
+
+variable "admin" {
+  description = "admin"
+  type = object({
+    username     = string
+    display_name = string
+  })
+}
+
+variable "users" {
+  description = "map of users"
+  type = list(object({
+    username     = string
+    display_name = string
+  }))
+}
+
+variable "passwords" {
+  description = "passwords for users"
+  type        = map(string)
 }

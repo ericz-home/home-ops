@@ -16,25 +16,26 @@ resource "vault_auth_backend" "userpass" {
 resource "vault_generic_endpoint" "admin_user" {
   depends_on = [vault_auth_backend.userpass]
 
-  path                 = "auth/userpass/users/${var.admin_user}"
+  path                 = "auth/userpass/users/${var.admin.username}"
   ignore_absent_fields = true
 
   data_json = jsonencode({
-    "password" : var.admin_password
+    "password" : var.passwords["${var.admin.username}"]
   })
 }
 
 resource "vault_identity_entity" "admin_entity" {
-  name = var.admin_user
+  name = var.admin.username
   metadata = {
-    email = "${var.admin_user}@lab.home"
+    email        = "${var.admin.username}@lab.home"
+    display_name = "${var.admin.display_name}"
   }
 }
 
 resource "vault_identity_entity_alias" "admin_entity_alias" {
   depends_on = [vault_auth_backend.userpass, vault_identity_entity.admin_entity]
 
-  name           = var.admin_user
+  name           = var.admin.username
   canonical_id   = vault_identity_entity.admin_entity.id
   mount_accessor = vault_auth_backend.userpass.accessor
 }
@@ -60,11 +61,11 @@ resource "vault_identity_mfa_login_enforcement" "mfa_login_enforcement" {
   mfa_method_ids = [
     vault_identity_mfa_totp.totp.method_id
   ]
-  auth_method_accessors = [
-    vault_auth_backend.userpass.accessor
-  ]
   identity_group_ids = [
     vault_identity_group.admin_group.id
+  ]
+  identity_entity_ids = [
+    vault_identity_entity.admin_entity.id
   ]
 }
 

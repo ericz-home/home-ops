@@ -3,5 +3,6 @@
 *.key
 token
 .DS_Store
+*.tfvars
 
 toolbox/*/bin
