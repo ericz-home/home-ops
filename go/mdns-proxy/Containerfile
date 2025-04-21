@@ -1,4 +1,4 @@
-FROM golang:1.23-bullseye as builder
+FROM golang:1.24-bullseye as builder
 
 WORKDIR /src
 
@@ -8,7 +8,7 @@ RUN CGO_ENABLED=0 go build -o bin/mdns-proxy main.go zones.go
 
 FROM bitnami/kubectl:latest as kubectl
 
-FROM gcr.io/distroless/base-debian11:debug-nonroot
+FROM gcr.io/distroless/base-debian12:debug-nonroot
 
 LABEL org.opencontainers.image.source=https://github.com/ericz-home/home-ops
 

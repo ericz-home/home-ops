@@ -24,3 +24,11 @@ jobs:
       image: ${{ github.repository_owner }}/mdns-proxy
       workdir: ./go/mdns-proxy
     secrets: inherit
+  build-homebot:
+    uses: ./.github/workflows/build_publish.yml
+    permissions:
+      packages: write
+    with:
+      image: ${{ github.repository_owner }}/homebot
+      workdir: ./go/homebot
+    secrets: inherit
