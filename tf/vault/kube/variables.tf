@@ -7,5 +7,6 @@ variable "services" {
     "projectcontour"  = ["envoy"],
     "feeds-to-pocket" = ["feeds-to-pocket"],
     "open-webui"      = ["open-webui"],
+    "homebot"         = ["homebot"],
   }
 }
