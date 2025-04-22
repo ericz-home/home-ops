@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 type cfg struct {
@@ -24,7 +26,7 @@ func readEnvPath(env string) (string, error) {
 		return "", err
 	}
 
-	return string(b), nil
+	return strings.TrimSpace(string(b)), nil
 }
 
 func parseConfig() error {
@@ -38,6 +40,7 @@ func parseConfig() error {
 		return err
 	}
 
+	fmt.Println(discordToken)
 	Config.DiscordToken = discordToken
 	Config.HomeAssistantToken = haToken
 	return nil
