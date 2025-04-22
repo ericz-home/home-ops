@@ -57,11 +57,11 @@ extraEnvVars:
   - name:   OAUTH_PROVIDER_NAME 
     value:  'Vault'
   - name:   OAUTH_USERNAME_CLAIM 
-    value:  'username'
+    value:  'display_name'
   - name:   OAUTH_EMAIL_CLAIM 
     value:  'email'
   - name:   OAUTH_SCOPES
-    value:  'openid email user roles groups'
+    value:  'openid profile roles groups'
   - name:   OAUTH_ALLOWED_DOMAINS 
     value:  'lab.home,'
   - name:   OAUTH_MERGE_ACCOUNTS_BY_EMAIL 
@@ -70,6 +70,10 @@ extraEnvVars:
     value:  'True'
   - name:   ENABLE_OAUTH_ROLE_MANAGEMENT 
     value:  'True'
+  - name:   OAUTH_ALLOWED_ROLES
+    value:  'users'
+  - name:   OAUTH_ADMIN_ROLES
+    value:  'admins'
   - name:   ENABLE_SIGNUP 
     value:  'False'
   - name:   ENABLE_LOGIN_FORM 

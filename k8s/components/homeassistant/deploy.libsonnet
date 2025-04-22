@@ -149,6 +149,11 @@ local deploy = {
                 mountPath: '/etc/services.d/home-assistant/run',
                 subPath: 'container-venv/run',
               },
+              {
+                name: 'lab-ca',
+                mountPath: '/vault/tls/ca.crt',
+                subPath: 'ca.crt',
+              },
             ],
           },
         ],
@@ -159,6 +164,12 @@ local deploy = {
             name: 'config',
             persistentVolumeClaim: {
               claimName: 'config-pvc',
+            },
+          },
+          {
+            name: 'lab-ca',
+            secret: {
+              secretName: 'lab-ca',
             },
           },
           {
