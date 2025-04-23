@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"os"
 	"strings"
@@ -10,6 +9,7 @@ import (
 type cfg struct {
 	DiscordToken       string
 	HomeAssistantToken string
+	HomeAssistantURL   string
 }
 
 var Config cfg
@@ -40,8 +40,10 @@ func parseConfig() error {
 		return err
 	}
 
-	fmt.Println(discordToken)
+	haURL := os.Getenv("HOME_ASSISTANT_URL")
+
 	Config.DiscordToken = discordToken
 	Config.HomeAssistantToken = haToken
+	Config.HomeAssistantURL = haURL
 	return nil
 }

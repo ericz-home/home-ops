@@ -44,7 +44,7 @@ func main() {
 		cancel()
 	}()
 
-	bot := &Bot{}
+	bot := NewBot()
 	if err = bot.Run(ctx); err != nil {
 		slog.Error("Exiting with error")
 	}
