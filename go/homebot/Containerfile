@@ -4,7 +4,7 @@ WORKDIR /src
 
 COPY ./ .
 
-RUN CGO_ENABLED=0 go build -o bin/homebot main.go bot.go config.go
+RUN CGO_ENABLED=0 go build -o bin/homebot main.go bot.go config.go hass.go
 
 FROM gcr.io/distroless/base-debian12:debug-nonroot
 
