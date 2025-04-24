@@ -36,7 +36,6 @@ type HassData struct {
 type ConversationRequest struct {
 	Text           string `json:"text"`
 	Language       string `json:"language"`
-	Agent          string `json:"agent_id"`
 	ConversationID string `json:"conversation_id,omitempty"`
 }
 
@@ -142,7 +141,7 @@ func parseResponse(resp *http.Response) (*ConversationResponse, *ConversationErr
 
 func generateRequest(url, text, id string) (*http.Request, error) {
 	b := bytes.NewBuffer(nil)
-	body := ConversationRequest{text, "en", "conversation.llama3_2", id}
+	body := ConversationRequest{text, "en", id}
 
 	enc := json.NewEncoder(b)
 	if err := enc.Encode(body); err != nil {
