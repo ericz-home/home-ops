@@ -12,6 +12,7 @@ type cfg struct {
 	DiscordToken       string
 	HomeAssistantToken string
 	HomeAssistantURL   string
+	Agent              string
 }
 
 var Config cfg
@@ -44,8 +45,11 @@ func parseConfig() error {
 
 	haURL := os.Getenv("HOME_ASSISTANT_URL")
 
+	agent := os.Getenv("HOME_ASSISTANT_AGENT")
+
 	Config.DiscordToken = discordToken
 	Config.HomeAssistantToken = haToken
 	Config.HomeAssistantURL = haURL
+	Config.Agent = agent
 	return nil
 }

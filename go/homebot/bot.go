@@ -83,29 +83,36 @@ func (b *Bot) handleMessage(session *discordgo.Session, message *discordgo.Messa
 }
 
 func (b *Bot) sendToHA(text, id string) (string, error) {
+	log := slog.With("conversationID", id)
+
 	cr, ce, err := b.hass.Conversation(text, id, "conversation.home_assistant")
 	if err != nil {
 		return "", err
 	}
 
-	slog.Debug("received response from HomeAssistant", "responseData", cr, "errorData", ce, "agent", "home_assistant")
+	log.Debug("received response from HomeAssistant", "responseData", cr, "errorData", ce, "agent", "home_assistant")
 
 	// home-assistant agent worked
 	if cr != nil {
 		b.conversationID = cr.ConversationID
-		return cr.Speech, nil
+		return "🏠 " + cr.Speech, nil
 	}
 
-	slog.Info("trying LLM instead of home assistant")
-	cr, ce, err = b.hass.Conversation(text, id, "conversation.llama3_2")
+	// no fallback, send back home assistant response
+	if Config.Agent == "" {
+		return "❓ " + ce.Speech, nil
+	}
+
+	log.Info("trying LLM instead of home assistant", "agent", Config.Agent)
+	cr, ce, err = b.hass.Conversation(text, id, Config.Agent)
 	if err != nil {
 		return "", err
 	}
-	slog.Debug("received response from HomeAssistant", "responseData", cr, "errorData", ce, "agent", "llama3.2")
+	log.Debug("received response from HomeAssistant", "responseData", cr, "errorData", ce, "agent", Config.Agent)
 	if ce != nil {
-		return ce.Speech, nil
+		return "❓ " + ce.Speech, nil
 	}
 
 	b.conversationID = cr.ConversationID
-	return cr.Speech, nil
+	return "🤓 " + cr.Speech, nil
 }
