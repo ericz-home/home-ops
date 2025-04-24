@@ -51,9 +51,9 @@ type ConversationError struct {
 	Speech string
 }
 
-func (h *HassClient) Conversation(text, id string) (*ConversationResponse, *ConversationError, error) {
+func (h *HassClient) Conversation(text, id, agent string) (*ConversationResponse, *ConversationError, error) {
 	path := h.URL + "/api/conversation/process"
-	req, err := generateRequest(path, text, id)
+	req, err := generateRequest(path, text, id, agent)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -140,9 +140,9 @@ func parseResponse(resp *http.Response) (*ConversationResponse, *ConversationErr
 	return nil, nil, errors.New("unknown HomeAssistant response type")
 }
 
-func generateRequest(url, text, id string) (*http.Request, error) {
+func generateRequest(url, text, id, agent string) (*http.Request, error) {
 	b := bytes.NewBuffer(nil)
-	body := ConversationRequest{text, "en", "conversation.llama3_2", id}
+	body := ConversationRequest{text, "en", agent, id}
 
 	enc := json.NewEncoder(b)
 	if err := enc.Encode(body); err != nil {

@@ -83,13 +83,25 @@ func (b *Bot) handleMessage(session *discordgo.Session, message *discordgo.Messa
 }
 
 func (b *Bot) sendToHA(text, id string) (string, error) {
-	cr, ce, err := b.hass.Conversation(text, id)
+	cr, ce, err := b.hass.Conversation(text, id, "conversation.home-assistant")
 	if err != nil {
 		return "", err
 	}
 
-	slog.Debug("received response from HomeAssistant", "responseData", cr, "errorData", ce)
+	slog.Debug("received response from HomeAssistant", "responseData", cr, "errorData", ce, "agent", "home-assistant")
 
+	// home-assistant agent worked
+	if cr != nil {
+		b.conversationID = cr.ConversationID
+		return cr.Speech, nil
+	}
+
+	slog.Info("trying LLM instead of home assistant")
+	cr, ce, err = b.hass.Conversation(text, id, "conversation.llama3_2")
+	if err != nil {
+		return "", err
+	}
+	slog.Debug("received response from HomeAssistant", "responseData", cr, "errorData", ce, "agent", "llama3.2")
 	if ce != nil {
 		return ce.Speech, nil
 	}
