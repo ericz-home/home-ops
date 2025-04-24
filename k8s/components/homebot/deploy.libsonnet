@@ -48,7 +48,7 @@ local deploy = {
       spec: {
         containers: [
           {
-            image: 'ghcr.io/ericz-home/homebot:2025-04-23',
+            image: 'ghcr.io/ericz-home/homebot:2025-04-24',
             imagePullPolicy: 'Always',
             name: 'homebot',
             env: [
