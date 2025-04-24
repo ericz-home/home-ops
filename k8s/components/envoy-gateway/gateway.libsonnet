@@ -45,4 +45,4 @@ local makeGateway(site) = {
   },
 };
 
-[makeGateway(site) for site in ['homeassistant', 'vault', 'mealie', 'ollama', 'open-webui', 'zigbee2mqtt', 'splunk']]
+[makeGateway(site) for site in ['homeassistant', 'vault', 'mealie', 'open-webui', 'zigbee2mqtt', 'splunk']]
