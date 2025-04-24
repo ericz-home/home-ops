@@ -7,6 +7,8 @@ import (
 )
 
 type cfg struct {
+	DebugMode bool
+
 	DiscordToken       string
 	HomeAssistantToken string
 	HomeAssistantURL   string

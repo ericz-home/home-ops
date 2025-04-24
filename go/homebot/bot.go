@@ -51,6 +51,16 @@ func (b *Bot) handleMessage(session *discordgo.Session, message *discordgo.Messa
 		return
 	}
 
+	// Check for specific test channel only
+	if Config.DebugMode && message.ChannelID != "1363714205974401145" {
+		return
+	}
+
+	// if during regular run, only listen on specific #home-assistant channel
+	if !Config.DebugMode && message.ChannelID != "1363704415692783826" {
+		return
+	}
+
 	if strings.ToLower(message.Content) == "start a new conversation" {
 		b.conversationID = ""
 		session.MessageReactionAdd(message.ChannelID, message.ID, "🔄")

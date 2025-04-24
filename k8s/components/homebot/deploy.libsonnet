@@ -16,7 +16,7 @@ local vault_annotations = {
   'vault.hashicorp.com/agent-inject-perms-homeassistant': '0600',
   'vault.hashicorp.com/agent-inject-secret-homeassistant': 'secrets/homebot/homeassistant',
   'vault.hashicorp.com/agent-inject-template-homeassistant': |||
-    {{ with secret "secrets/homebot/discord" -}}
+    {{ with secret "secrets/homebot/homeassistant" -}}
     {{ .Data.data.token }}
     {{- end }}
   |||,
@@ -48,7 +48,7 @@ local deploy = {
       spec: {
         containers: [
           {
-            image: 'ghcr.io/ericz-home/homebot:2025-04-22',
+            image: 'ghcr.io/ericz-home/homebot:2025-04-23',
             imagePullPolicy: 'Always',
             name: 'homebot',
             env: [
@@ -59,6 +59,10 @@ local deploy = {
               {
                 name: 'HOME_ASSISTANT_TOKEN_PATH',
                 value: '/vault/secrets/homeassistant',
+              },
+              {
+                name: 'HOME_ASSISTANT_URL',
+                value: 'http://homeassistant.homeassistant.svc.cluster.local:8123',
               },
             ],
           },

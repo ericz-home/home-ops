@@ -13,11 +13,12 @@ var (
 )
 
 func parseFlags() {
-	b := flag.Bool("debug", false, "enable debug logging")
+	b := flag.Bool("debug", false, "enable debug mode")
 	flag.Parse()
 
 	if *b {
 		level.Set(slog.LevelDebug)
+		Config.DebugMode = true
 	}
 
 }
