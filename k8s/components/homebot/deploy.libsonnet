@@ -64,6 +64,10 @@ local deploy = {
                 name: 'HOME_ASSISTANT_URL',
                 value: 'http://homeassistant.homeassistant.svc.cluster.local:8123',
               },
+              {
+                name: 'HOME_ASSISTANT_AGENT',
+                value: 'conversation.qwen2_5_3b',
+              },
             ],
           },
         ],
