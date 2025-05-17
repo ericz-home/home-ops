@@ -7,17 +7,6 @@ local vault_annotations =
     'vault.hashicorp.com/agent-pre-populate-only': 'true',
     'vault.hashicorp.com/agent-init-first': 'true',
     'vault.hashicorp.com/agent-run-as-user': '1000',
-    'vault.hashicorp.com/agent-copy-volume-mounts': 'git-init',
-  } +
-  // add ssh secrets
-  {
-    'vault.hashicorp.com/agent-inject-perms-ssh-privatekey': '0600',
-    'vault.hashicorp.com/agent-inject-secret-ssh-privatekey': 'secrets/homeassistant/ssh',
-    'vault.hashicorp.com/agent-inject-template-ssh-privatekey': |||
-      {{ with secret "secrets/homeassistant/ssh" -}}
-      {{ .Data.data.privatekey }}
-      {{- end }}
-    |||,
   } +
   // add mealie secrets
   {
@@ -64,30 +53,6 @@ local vault_annotations =
     |||,
   };
 
-local git_sync =
-  {
-    image: 'alpine/git:user',
-    imagePullPolicy: 'IfNotPresent',
-    name: 'git-init',
-    volumeMounts: [
-      {
-        name: 'config',
-        mountPath: '/config',
-      },
-    ],
-    workingDir: '/config',
-    env: [
-      {
-        name: 'GIT_SSH_COMMAND',
-        value: 'ssh -i /vault/secrets/ssh-privatekey -o "StrictHostKeyChecking no"',
-      },
-    ],
-    command: ['/bin/sh', '-c'],
-    args: [
-      '(git submodule update --init --recursive; git pull --recurse-submodules) || git clone git@github.com:ericz-home/homeassistant-config.git .',
-    ],
-  };
-
 local deploy = {
   apiVersion: 'apps/v1',
   kind: 'Deployment',
@@ -113,9 +78,6 @@ local deploy = {
         annotations: vault_annotations,
       },
       spec: {
-        initContainers: [
-          git_sync,
-        ],
         containers: [
           {
             image: 'ghcr.io/home-assistant/home-assistant:stable',
@@ -160,6 +122,10 @@ local deploy = {
                 mountPath: '/config',
               },
               {
+                name: 'backups',
+                mountPath: '/config/backups',
+              },
+              {
                 name: 'config',
                 mountPath: '/etc/services.d/home-assistant/run',
                 subPath: 'container-venv/run',
@@ -194,6 +160,12 @@ local deploy = {
             name: 'config',
             persistentVolumeClaim: {
               claimName: 'config-pvc',
+            },
+          },
+          {
+            name: 'backups',
+            persistentVolumeClaim: {
+              claimName: 'backup-pvc',
             },
           },
           {

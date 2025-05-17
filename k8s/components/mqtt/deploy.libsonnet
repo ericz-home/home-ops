@@ -19,7 +19,6 @@ local deploy = {
         labels: {
           app: 'mqtt',
         },
-        // annotations: vault_annotations,
       },
       spec: {
         containers: [

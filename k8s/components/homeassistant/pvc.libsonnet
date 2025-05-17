@@ -1,4 +1,4 @@
-local pv = {
+local pv_config = {
   apiVersion: 'v1',
   kind: 'PersistentVolume',
   metadata: {
@@ -41,7 +41,50 @@ local pv = {
   },
 };
 
-local pvc = {
+local pv_backup = {
+  apiVersion: 'v1',
+  kind: 'PersistentVolume',
+  metadata: {
+    name: 'homeassistant-backup',
+    labels: {
+      app: 'homeassistant',
+    },
+  },
+  spec: {
+    capacity: {
+      storage: '10Gi',
+    },
+    volumeMode: 'Filesystem',
+    accessModes: [
+      'ReadWriteOnce',
+    ],
+    persistentVolumeReclaimPolicy: 'Retain',
+    storageClassName: 'local-storage',
+    'local': {
+      path: '/mnt/backups/homeassistant',
+    },
+    claimRef: {
+      name: 'backup-pvc',
+      namespace: 'homeassistant',
+    },
+    nodeAffinity: {
+      required: {
+        nodeSelectorTerms: [
+          {
+            matchExpressions:
+              [{
+                key: 'node.kubernetes.io/instance-type',
+                operator: 'In',
+                values: ['k3s'],
+              }],
+          },
+        ],
+      },
+    },
+  },
+};
+
+local pvc_config = {
   apiVersion: 'v1',
   kind: 'PersistentVolumeClaim',
   metadata: {
@@ -62,4 +105,25 @@ local pvc = {
   },
 };
 
-[pv, pvc]
+local pvc_backup = {
+  apiVersion: 'v1',
+  kind: 'PersistentVolumeClaim',
+  metadata: {
+    name: 'backup-pvc',
+    namespace: 'homeassistant',
+  },
+  spec: {
+    accessModes: [
+      'ReadWriteOnce',
+    ],
+    storageClassName: '',
+    volumeName: 'homeassistant-backup',
+    resources: {
+      requests: {
+        storage: '10Gi',
+      },
+    },
+  },
+};
+
+[pv_config, pv_backup, pvc_config, pvc_backup]
