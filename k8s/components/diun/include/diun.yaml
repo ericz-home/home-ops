@@ -2,10 +2,23 @@ db:
   path: /data/diun.db
 
 watch:
-  workers: 5
+  workers: 1
   schedule: "0 */6 * * *"
   jitter: 30s
   runOnStartup: true
+
+defaults:
+  watchRepo: true
+  notifyOn:
+    - new
+    - update
+  maxTags: 1
+  sortTags: semver
+  includeTags:
+    - ^\d+\.\d+\.\d+$
+    - ^v\d+\.\d+\.\d+$
+    - stable
+    - latest
 
 providers:
   kubernetes:
@@ -14,8 +27,6 @@ providers:
 notif:
   discord:
     webhookURLFile: /vault/secrets/discord
-    mentions:
-      - "@Eric"
     renderFields: true
     timeout: 10s
     templateBody: |

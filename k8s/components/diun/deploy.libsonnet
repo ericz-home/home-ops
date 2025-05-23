@@ -14,7 +14,7 @@ local vault_annotations =
     'vault.hashicorp.com/agent-inject-template-discord': |||
       {{ with secret "secrets/diun/discord" -}}
       {{ .Data.data.webhookURL }}
-      {{- end }}
+      {{- end -}}
     |||,
   };
 
