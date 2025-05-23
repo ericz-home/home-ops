@@ -17,8 +17,8 @@ defaults:
   includeTags:
     - ^\d+\.\d+\.\d+$
     - ^v\d+\.\d+\.\d+$
-    - stable
-    - latest
+    - ^stable$
+    - ^latest$
 
 providers:
   kubernetes:
