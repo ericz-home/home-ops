@@ -1,5 +1,4 @@
 local certs = import 'certificates.libsonnet';
-local esphome = import 'esphome.libsonnet';
 local deploy = import 'homeassistant.libsonnet';
 local ingress = import 'ingress.libsonnet';
 local ns = import 'ns.libsonnet';
@@ -20,7 +19,6 @@ std.foldl(merge, [
   ns,
   sa,
   deploy,
-  esphome,
   ingress,
   pvc,
   certs,

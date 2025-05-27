@@ -84,48 +84,6 @@ local pv_backup = {
   },
 };
 
-local pv_esphome = {
-  apiVersion: 'v1',
-  kind: 'PersistentVolume',
-  metadata: {
-    name: 'esphome',
-    labels: {
-      app: 'esphome',
-    },
-  },
-  spec: {
-    capacity: {
-      storage: '2Gi',
-    },
-    volumeMode: 'Filesystem',
-    accessModes: [
-      'ReadWriteOnce',
-    ],
-    persistentVolumeReclaimPolicy: 'Retain',
-    storageClassName: 'local-storage',
-    'local': {
-      path: '/home/home/Documents/work/k3s/storage/homeassistant/esphome',
-    },
-    claimRef: {
-      name: 'esphome-pvc',
-      namespace: 'homeassistant',
-    },
-    nodeAffinity: {
-      required: {
-        nodeSelectorTerms: [
-          {
-            matchExpressions:
-              [{
-                key: 'node.kubernetes.io/instance-type',
-                operator: 'In',
-                values: ['k3s'],
-              }],
-          },
-        ],
-      },
-    },
-  },
-};
 
 local pvc_config = {
   apiVersion: 'v1',
@@ -169,24 +127,4 @@ local pvc_backup = {
   },
 };
 
-local pvc_esphome = {
-  apiVersion: 'v1',
-  kind: 'PersistentVolumeClaim',
-  metadata: {
-    name: 'esphome-pvc',
-    namespace: 'homeassistant',
-  },
-  spec: {
-    accessModes: [
-      'ReadWriteOnce',
-    ],
-    storageClassName: '',
-    volumeName: 'esphome',
-    resources: {
-      requests: {
-        storage: '2Gi',
-      },
-    },
-  },
-};
-[pv_config, pv_backup, pv_esphome, pvc_config, pvc_backup, pvc_esphome]
+[pv_config, pv_backup, pvc_config, pvc_backup]
