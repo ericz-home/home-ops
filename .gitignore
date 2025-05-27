@@ -5,4 +5,4 @@ token
 .DS_Store
 *.tfvars
 
-toolbox/*/bin
+tools/*/bin
