@@ -82,6 +82,8 @@ extraEnvVars:
     value:  'True'
   - name:   SSL_CERT_FILE
     value:  '/etc/ssl/certs/ca-certificates.crt'
-  - name: CORS_ALLOW_ORIGIN
-    value: 'https://open-webuilab.home:4443;http://localhost:8080'
+  - name:   CORS_ALLOW_ORIGIN
+    value:  'https://open-webui.lab.home:4443;http://localhost:8080'
+  - name:   WEBUI_URL
+    value: 'https://open-webui.lab.home:4443'
 
