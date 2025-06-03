@@ -29,8 +29,6 @@ spec:
             command: './scripts/get-ca.sh',
             args: [ std.extVar('workDir') ]
           }
-
-
   dataSources:
     - exec://expand-helm?configVar=expandHelm
     - exec://get-ca?configVar=getCA
