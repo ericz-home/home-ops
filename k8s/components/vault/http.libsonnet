@@ -48,7 +48,7 @@ local policy = {
         group: '',
         kind: 'Service',
         name: 'vault',
-        sectionName: '8200',
+        sectionName: 'https',
       },
     ],
     validation: {

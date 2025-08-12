@@ -6,7 +6,7 @@
     namespace: 'version-checker',
   },
   spec: {
-    schedule: '0 17 * * *',
+    schedule: '0 3 * * *',
     jobTemplate: {
       spec: {
         template: {
@@ -22,7 +22,7 @@
                 ],
                 args: [
                   '-c',
-                  'wget -O- http://version-checker.version-checker.svc.cluster.local:8080/metrics | grep "version_checker_" | prom2json',
+                  'wget -Oq- http://version-checker.version-checker.svc.cluster.local:8080/metrics | grep "version_checker_" | prom2json',
                 ],
               },
             ],

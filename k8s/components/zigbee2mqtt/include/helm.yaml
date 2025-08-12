@@ -6,6 +6,7 @@ service:
   type: 'ClusterIP'
 
 secretesMigratorContainer:
+  tag: 'latest'
   securityContext:
     runAsUser: 1000
 

@@ -28,6 +28,14 @@ local envoyProxy = {
     provider: {
       type: 'Kubernetes',
       kubernetes: {
+        envoyDeployment: {
+          name: 'envoy-lab-gateway',
+          pod: {
+            annotations: {
+              'match-regex.version-checker.io/envoy': 'distroless-v(\\d+)\\.(\\d+)\\.(\\d+)',
+            },
+          },
+        },
         envoyService: {
           name: 'envoy-lab-gateway',
           annotations: {

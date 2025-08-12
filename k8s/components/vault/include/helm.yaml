@@ -4,6 +4,8 @@ global:
 
 server:
   enabled: true
+  image:
+    tag: '1.20.1'
   updateStrategyType: RollingUpdate
   resources:
     requests:
@@ -12,15 +14,6 @@ server:
     limits:
       memory: '2Gi'
       cpu: 1
-  # tolerations:
-  #   - key: 'trust'
-  #     operator: 'Equal'
-  #     value: 'high'
-  #     effect: 'NoExecute'
-
-  # nodeSelector:
-  #   k8s.lab.home/workload: 'infra'
-  #
   dataStorage:
     enabled: true
     size: 5Gi
@@ -62,6 +55,10 @@ server:
 
 injector:
   enabled: true
+  image:
+    tag: '1.7.0'
+  agentImage:
+    tag: '1.20.1'
   leaderElector:
     enabled: false
   certs:
@@ -70,3 +67,7 @@ injector:
     affinity: ""
     annotations:
       cert-manager.io/inject-ca-from: vault/injector-tls
+
+agent:
+  image:
+    tag: '1.20.1'

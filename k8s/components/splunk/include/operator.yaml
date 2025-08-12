@@ -1,11 +1,18 @@
 image:
   repository: docker.io/splunk/splunk:latest
 
+kubeRbacProxy:
+  image:
+    tag: 'v0.16.0'
+
 splunkOperator:
   clusterWideAccess: false
 
   image:
-    repository: docker.io/splunk/splunk-operator:2.7.1-distroless
+    repository: docker.io/splunk/splunk-operator:2.8.0-distroless
+
+  podAnnotations:
+    match-regex.version-checker.io/manager: '^v\d+\.\d+\.\d+-distroless'
 
   securityContext:
     runAsUser: 1000

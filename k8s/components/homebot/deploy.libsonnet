@@ -66,7 +66,7 @@ local deploy = {
               },
               {
                 name: 'HOME_ASSISTANT_AGENT',
-                value: 'conversation.qwen2_5_3b',
+                value: 'conversation.llama3_1_8b_instruct_q3_k_m',
               },
             ],
           },
