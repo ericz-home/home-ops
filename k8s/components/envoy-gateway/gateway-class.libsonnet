@@ -121,7 +121,7 @@ local issuer = [
     },
     spec: {
       vault: {
-        path: 'pki/lab/v2025/sign/lab-ingress-role',
+        path: 'pki/lab/v2026/sign/lab-ingress-role',
         server: 'https://vault.vault.svc.cluster.local:8200',
         caBundleSecretRef: {
           name: 'lab-ca',

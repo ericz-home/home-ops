@@ -8,7 +8,7 @@
     },
     spec: {
       secretName: 'vault-tls',
-      duration: '2160h',  //90d
+      duration: '720h',  //30d
       renewBefore: '360h',  //15d
       isCA: false,
       commonName: 'vault',
@@ -34,7 +34,7 @@
     },
     spec: {
       secretName: 'injector-tls',
-      duration: '2160h',  //90d
+      duration: '720h',  //30d
       renewBefore: '360h',  //15d
       isCA: false,
       commonName: 'vault-agent-injector-svc',

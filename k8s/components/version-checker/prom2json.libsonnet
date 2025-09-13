@@ -22,7 +22,7 @@
                 ],
                 args: [
                   '-c',
-                  'wget -Oq- http://version-checker.version-checker.svc.cluster.local:8080/metrics | grep "version_checker_" | prom2json',
+                  'wget -qO- http://version-checker.version-checker.svc.cluster.local:8080/metrics | grep "version_checker_" | prom2json',
                 ],
               },
             ],

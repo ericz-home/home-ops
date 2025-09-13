@@ -1,6 +1,6 @@
 image:
   pullPolicy: 'Always'
-  tag: 'latest'
+  tag: 'latest-dev'
 
 service:
   type: 'ClusterIP'

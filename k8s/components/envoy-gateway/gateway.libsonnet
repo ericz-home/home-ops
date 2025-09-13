@@ -8,6 +8,8 @@ local makeGateway(site) = {
     annotations: {
       'cert-manager.io/issuer': 'gateway-issuer',
       'cert-manager.io/common-name': hostname,
+      'cert-manager.io/duration': '720h',
+      'cert-manager.io/renewBefore': '360h',
     },
   },
   spec: {

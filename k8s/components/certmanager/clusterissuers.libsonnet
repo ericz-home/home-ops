@@ -30,7 +30,7 @@ local issuer = function(name, role)
       },
       spec: {
         vault: {
-          path: 'pki/lab/v2025/sign/' + role,
+          path: 'pki/lab/v2026/sign/' + role,
           server: 'https://vault.vault.svc.cluster.local:8200',
           caBundleSecretRef: {
             name: 'lab-ca',
