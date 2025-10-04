@@ -29,7 +29,7 @@ cache {
  
 template {
   contents = <<EOF
-{{ with pkiCert "pki/lab/v2025/issue/pihole-role" "common_name=raspberrypi.home" "alt_names=pi.hole"}}
+{{ with pkiCert "pki/lab/v2026/issue/pihole-role" "common_name=raspberrypi.home" "alt_names=pi.hole"}}
 {{ .Data.Key }}
 {{ .Data.Cert }}
 {{ end }}
