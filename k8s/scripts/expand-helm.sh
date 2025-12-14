@@ -21,4 +21,4 @@ if [ "$version" != "" ]; then
     version_args="--version=$version"
 fi
 
-helm template $name $chart --include-crds $path_args -n $ns $version_args
+helm template $name $chart --kube-version v1.34.1 --include-crds $path_args -n $ns $version_args

@@ -48,3 +48,5 @@ zigbee2mqtt:
   # Set output power to max 20
   advanced:
     transmit_power: 20
+  availability:
+    enabled: true

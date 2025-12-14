@@ -3,5 +3,8 @@
   kind: 'Namespace',
   metadata: {
     name: 'mqtt',
+    labels: {
+      'lab.home/trust-bundle': 'lab-ca-2029',
+    },
   },
 }

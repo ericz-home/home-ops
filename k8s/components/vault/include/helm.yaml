@@ -5,7 +5,7 @@ global:
 server:
   enabled: true
   image:
-    tag: '1.20.3'
+    tag: '1.21.0'
   updateStrategyType: RollingUpdate
   resources:
     requests:
@@ -58,7 +58,7 @@ injector:
   image:
     tag: '1.7.0'
   agentImage:
-    tag: '1.20.3'
+    tag: '1.21.0'
   leaderElector:
     enabled: false
   certs:

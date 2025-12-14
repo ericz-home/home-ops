@@ -1,5 +1,4 @@
 local ca = importstr 'data://get-ca/root/2029/Lab_Root_2029.crt';
-local caOld = importstr 'data://get-ca/root/2024/Lab_Root.crt';
 
 {
   apiVersion: 'trust.cert-manager.io/v1alpha1',
@@ -11,7 +10,7 @@ local caOld = importstr 'data://get-ca/root/2024/Lab_Root.crt';
   spec: {
     sources: [
       {
-        inLine: ca + caOld,
+        inLine: ca,
       },
     ],
     target: {
