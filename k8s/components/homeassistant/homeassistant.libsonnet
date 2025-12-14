@@ -21,21 +21,6 @@ local vault_annotations =
       ln -sf /vault/secrets/mealie /config/packages/mealie/secrets.yaml
     |||,
   } +
-  // add unifi secrets
-  {
-    'vault.hashicorp.com/agent-inject-perms-unifi': '0600',
-    'vault.hashicorp.com/agent-inject-secret-unifi': 'secrets/homeassistant/unifi-ssh',
-    'vault.hashicorp.com/agent-inject-template-unifi': |||
-      {{ with secret "secrets/homeassistant/unifi-ssh" -}}
-      unifi_username: {{ .Data.data.username }}
-      unifi_password: {{ .Data.data.password }}
-      unifi_ip: {{ .Data.data.ip }}
-      {{- end }}
-    |||,
-    'vault.hashicorp.com/agent-inject-command-unifi': |||
-      ln -sf /vault/secrets/unifi /config/device_trackers/unifi/secrets.yaml
-    |||,
-  } +
   // add onebusaway secrets
   {
     'vault.hashicorp.com/agent-inject-perms-gtfs': '0600',
