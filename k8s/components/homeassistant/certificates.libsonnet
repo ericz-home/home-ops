@@ -8,7 +8,7 @@
     },
     spec: {
       secretName: 'mqtt-auth',
-      duration: '720h',  //90d
+      duration: '4320h',  //180d
       renewBefore: '360h',  //15d
       isCA: false,
       commonName: 'homeassistant',

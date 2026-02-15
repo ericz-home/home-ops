@@ -8,7 +8,7 @@
     },
     spec: {
       secretName: 'vault-tls',
-      duration: '720h',  //30d
+      duration: '2160h',  //90d
       renewBefore: '360h',  //15d
       isCA: false,
       commonName: 'vault',
