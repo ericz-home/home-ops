@@ -47,10 +47,11 @@ local deploy = {
               },
             ],
             env: [
-              { name: 'PRELOAD_MODELS', value: 'llama3.1:8b-instruct-q3_K_M mistral:7b-instruct-q3_K_L qwen3:4b' },
+              { name: 'PRELOAD_MODELS', value: 'ministral-3:3b qwen3.5:4b' },
               { name: 'OLLAMA_KEEP_ALIVE', value: '1h' },
               { name: 'OLLAMA_MODELS', value: '/data/models' },
               { name: 'OLLAMA_MAX_LOADED_MODELS', value: '3' },
+              { name: 'OLLAMA_NO_CLOUD', value: '1' },
             ],
             lifecycle: {
               postStart: {
