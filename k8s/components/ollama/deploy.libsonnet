@@ -47,7 +47,7 @@ local deploy = {
               },
             ],
             env: [
-              { name: 'PRELOAD_MODELS', value: 'ministral-3:3b qwen3.5:4b' },
+              { name: 'PRELOAD_MODELS', value: 'ministral-3:3b qwen3.5:4b phi4-mini' },
               { name: 'OLLAMA_KEEP_ALIVE', value: '1h' },
               { name: 'OLLAMA_MODELS', value: '/data/models' },
               { name: 'OLLAMA_MAX_LOADED_MODELS', value: '3' },
