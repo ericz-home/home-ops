@@ -63,6 +63,28 @@ local deploy = {
         annotations: vault_annotations,
       },
       spec: {
+        initContainers: [
+          {
+            name: 'update-certs',
+            image: 'ghcr.io/home-assistant/home-assistant:stable',
+            command: ['sh'],
+            args: ['-c', 'update-ca-certificates && cp /etc/ssl/certs/* /etc/ssl/certs_pod/'],
+            securityContext: {
+              runAsUser: 0,
+            },
+            volumeMounts: [
+              {
+                name: 'lab-ca',
+                mountPath: '/usr/local/share/ca-certificates/lab-root.crt',
+                subPath: 'ca.crt',
+              },
+              {
+                name: 'certs',
+                mountPath: '/etc/ssl/certs_pod',
+              },
+            ],
+          },
+        ],
         containers: [
           {
             image: 'ghcr.io/home-assistant/home-assistant:stable',
@@ -111,14 +133,13 @@ local deploy = {
                 mountPath: '/config/backups',
               },
               {
+                name: 'certs',
+                mountPath: '/etc/ssl/certs',
+              },
+              {
                 name: 'config',
                 mountPath: '/etc/services.d/home-assistant/run',
                 subPath: 'container-venv/run',
-              },
-              {
-                name: 'lab-ca',
-                mountPath: '/vault/tls/ca.crt',
-                subPath: 'ca.crt',
               },
             ],
           },
@@ -178,6 +199,10 @@ local deploy = {
               path: '/home/home/Documents/work/k3s/mdns/dbus.sock',
               type: 'Socket',
             },
+          },
+          {
+            name: 'certs',
+            emptyDir: {},
           },
         ],
         securityContext: {
